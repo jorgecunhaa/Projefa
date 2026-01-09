@@ -26,7 +26,13 @@
 
   &.task-overdue {
     border-left: 4px solid var(--ion-color-danger);
-    background: rgba(235, 68, 90, 0.05);
+    background: rgba(235, 68, 90, 0.08);
+    animation: shake 0.5s ease-in-out;
+    
+    &:hover {
+      background: rgba(235, 68, 90, 0.12);
+      border-left-width: 6px;
+    }
   }
 
   &.task-completed {
@@ -115,8 +121,21 @@
 .overdue-badge,
 .due-soon-badge {
   font-size: 0.75rem;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(235, 68, 90, 0.4);
+
+  ion-icon {
+    font-size: 0.9rem;
+  }
+}
+
+.overdue-badge {
+  animation: pulse 2s ease-in-out infinite;
 }
 
 .delete-button {

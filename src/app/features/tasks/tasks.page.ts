@@ -45,6 +45,11 @@ export class TasksPage implements OnInit, OnDestroy {
   statusFilter: string = '';
 
   /**
+   * Número de tarefas em atraso
+   */
+  overdueCount: number = 0;
+
+  /**
    * Indica se está a carregar dados
    */
   isLoading: boolean = false;
@@ -136,23 +141,36 @@ export class TasksPage implements OnInit, OnDestroy {
       allTasks = await this.taskService.getAllTasks();
     }
 
+    // Calcular número de tarefas em atraso
+    const now = new Date().toISOString();
+    this.overdueCount = allTasks.filter(t => !t.completed && t.dueDate < now).length;
+
     // Aplicar filtro de estado
     if (this.statusFilter === 'completed') {
       this.tasks = allTasks.filter(t => t.completed);
     } else if (this.statusFilter === 'pending') {
       this.tasks = allTasks.filter(t => !t.completed);
     } else if (this.statusFilter === 'overdue') {
-      const now = new Date().toISOString();
       this.tasks = allTasks.filter(t => !t.completed && t.dueDate < now);
     } else {
       this.tasks = allTasks;
     }
 
-    // Ordenar por ordem e depois por data
+    // Ordenar: tarefas em atraso primeiro, depois por ordem e data
     this.tasks.sort((a, b) => {
+      const aOverdue = !a.completed && new Date(a.dueDate) < new Date();
+      const bOverdue = !b.completed && new Date(b.dueDate) < new Date();
+      
+      // Tarefas em atraso primeiro
+      if (aOverdue && !bOverdue) return -1;
+      if (!aOverdue && bOverdue) return 1;
+      
+      // Depois por ordem
       if (a.order !== b.order) {
         return a.order - b.order;
       }
+      
+      // Por fim por data
       return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
     });
   }

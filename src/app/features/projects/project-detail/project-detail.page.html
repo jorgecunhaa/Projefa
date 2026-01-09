@@ -89,10 +89,15 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- Tarefas (será implementado no módulo de tarefas) -->
+    <!-- Tarefas -->
     <ion-card class="tasks-card">
       <ion-card-header>
-        <ion-card-title>Tarefas</ion-card-title>
+        <div class="tasks-header">
+          <ion-card-title>Tarefas</ion-card-title>
+          <ion-badge *ngIf="statistics.overdue > 0" color="danger" class="overdue-count-badge">
+            {{ statistics.overdue }} em atraso
+          </ion-badge>
+        </div>
       </ion-card-header>
       <ion-card-content>
         <div class="empty-tasks" *ngIf="statistics.total === 0">
@@ -103,7 +108,19 @@
             Criar Tarefa
           </ion-button>
         </div>
-        <p *ngIf="statistics.total > 0">As tarefas serão exibidas aqui (módulo de tarefas)</p>
+
+        <!-- Lista de tarefas -->
+        <div *ngIf="statistics.total > 0" class="tasks-list">
+          <app-task-card
+            *ngFor="let task of tasks"
+            [task]="task"
+            [showProject]="false"
+            (click)="navigateToTaskDetail(task.id)"
+            (complete)="toggleTaskCompletion(task)"
+            (delete)="deleteTask(task)"
+            class="task-card-item">
+          </app-task-card>
+        </div>
       </ion-card-content>
     </ion-card>
 

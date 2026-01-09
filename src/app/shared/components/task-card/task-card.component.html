@@ -48,8 +48,9 @@
       </ion-chip>
 
       <!-- Badge de atraso -->
-      <ion-badge *ngIf="isOverdue()" color="danger" class="overdue-badge">
-        Em Atraso
+      <ion-badge *ngIf="isOverdue()" color="danger" class="overdue-badge pulse">
+        <ion-icon name="alert-circle"></ion-icon>
+        <span>Em Atraso</span>
       </ion-badge>
 
       <!-- Badge de próximo -->

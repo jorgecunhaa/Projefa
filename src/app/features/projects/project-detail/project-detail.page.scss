@@ -127,6 +127,20 @@
   display: block;
 }
 
+.tasks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  .overdue-count-badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    font-weight: 600;
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
 .empty-tasks {
   display: flex;
   flex-direction: column;
@@ -145,6 +159,16 @@
     color: var(--ion-color-medium);
     margin-bottom: 16px;
   }
+}
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card-item {
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 /** Responsividade */

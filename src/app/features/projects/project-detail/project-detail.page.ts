@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { ProjectService } from '../services/project.service';
+import { TaskService } from '../../tasks/services/task.service';
 import { ProjectWithCategory } from '../../../core/models/project.model';
+import { Task } from '../../../core/models/task.model';
 import { ProjectFormComponent } from '../project-form/project-form.component';
 
 /**
@@ -25,6 +27,11 @@ export class ProjectDetailPage implements OnInit {
    * Projeto atual
    */
   project: ProjectWithCategory | null = null;
+
+  /**
+   * Lista de tarefas do projeto
+   */
+  tasks: Task[] = [];
 
   /**
    * Estatísticas do projeto
@@ -50,6 +57,7 @@ export class ProjectDetailPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
+    private taskService: TaskService,
     private modalController: ModalController,
     private alertController: AlertController,
     private toastController: ToastController,
@@ -63,6 +71,7 @@ export class ProjectDetailPage implements OnInit {
     this.projectId = this.route.snapshot.paramMap.get('id') || '';
     if (this.projectId) {
       await this.loadProject();
+      await this.loadTasks();
       await this.loadStatistics();
     } else {
       await this.showToast('Projeto não encontrado', 'danger');
@@ -86,6 +95,30 @@ export class ProjectDetailPage implements OnInit {
       await this.showToast('Erro ao carregar projeto', 'danger');
     } finally {
       this.isLoading = false;
+    }
+  }
+
+  /**
+   * Carrega as tarefas do projeto
+   */
+  async loadTasks(): Promise<void> {
+    try {
+      this.tasks = await this.taskService.getTasksByProject(this.projectId);
+      // Ordenar: tarefas em atraso primeiro
+      this.tasks.sort((a, b) => {
+        const aOverdue = !a.completed && new Date(a.dueDate) < new Date();
+        const bOverdue = !b.completed && new Date(b.dueDate) < new Date();
+        
+        if (aOverdue && !bOverdue) return -1;
+        if (!aOverdue && bOverdue) return 1;
+        
+        if (a.order !== b.order) {
+          return a.order - b.order;
+        }
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      });
+    } catch (error) {
+      console.error('Erro ao carregar tarefas:', error);
     }
   }
 
@@ -177,9 +210,83 @@ export class ProjectDetailPage implements OnInit {
   /**
    * Navega para criar uma tarefa neste projeto
    */
-  navigateToCreateTask(): void {
-    // Será implementado no módulo de tarefas
-    // this.router.navigate(['/tasks/create'], { queryParams: { projectId: this.projectId } });
+  async navigateToCreateTask(): Promise<void> {
+    this.router.navigate(['/tasks'], { queryParams: { projectId: this.projectId } });
+  }
+
+  /**
+   * Navega para os detalhes de uma tarefa
+   * @param taskId - ID da tarefa
+   */
+  navigateToTaskDetail(taskId: string): void {
+    this.router.navigate(['/tasks', taskId]);
+  }
+
+  /**
+   * Marca uma tarefa como concluída ou não concluída
+   * @param task - Tarefa a alterar
+   */
+  async toggleTaskCompletion(task: Task): Promise<void> {
+    try {
+      await this.taskService.toggleTaskCompletion(task.id, !task.completed);
+      await this.loadTasks();
+      await this.loadStatistics();
+      await this.showToast(
+        task.completed ? 'Tarefa marcada como pendente' : 'Tarefa marcada como concluída',
+        'success'
+      );
+    } catch (error) {
+      console.error('Erro ao alterar estado da tarefa:', error);
+      await this.showToast('Erro ao alterar estado da tarefa', 'danger');
+    }
+  }
+
+  /**
+   * Elimina uma tarefa
+   * @param task - Tarefa a eliminar
+   */
+  async deleteTask(task: Task): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Eliminar Tarefa',
+      message: `Tens a certeza que queres eliminar a tarefa "${task.title}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            try {
+              await this.taskService.deleteTask(task.id);
+              await this.loadTasks();
+              await this.loadStatistics();
+              await this.showToast('Tarefa eliminada com sucesso!', 'success');
+            } catch (error) {
+              console.error('Erro ao eliminar tarefa:', error);
+              await this.showToast('Erro ao eliminar tarefa', 'danger');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Verifica se uma tarefa está em atraso
+   * @param task - Tarefa a verificar
+   * @returns true se estiver em atraso
+   */
+  isTaskOverdue(task: Task): boolean {
+    if (task.completed) {
+      return false;
+    }
+    const dueDate = new Date(task.dueDate);
+    const now = new Date();
+    return dueDate < now;
   }
 
   /**
@@ -204,6 +311,7 @@ export class ProjectDetailPage implements OnInit {
   async doRefresh(event: any): Promise<void> {
     await Promise.all([
       this.loadProject(),
+      this.loadTasks(),
       this.loadStatistics()
     ]);
     event.target.complete();

@@ -9,6 +9,49 @@
   vertical-align: middle;
 }
 
+.overdue-alert-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(235, 68, 90, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.overdue-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+
+  .alert-icon {
+    font-size: 2rem;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .alert-text {
+    flex: 1;
+
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  ion-button {
+    --border-color: white;
+    --color: white;
+    flex-shrink: 0;
+  }
+}
+
 .filters-container {
   padding: 8px 16px;
   background: var(--ion-color-light);

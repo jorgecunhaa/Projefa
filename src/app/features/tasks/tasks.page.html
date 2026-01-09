@@ -19,6 +19,22 @@
     </ion-toolbar>
   </ion-header>
 
+  <!-- Alerta de tarefas em atraso -->
+  <ion-card *ngIf="overdueCount > 0 && statusFilter !== 'overdue'" color="danger" class="overdue-alert-card pulse">
+    <ion-card-content>
+      <div class="overdue-alert-content">
+        <ion-icon name="alert-circle" class="alert-icon"></ion-icon>
+        <div class="alert-text">
+          <h3>{{ overdueCount }} {{ overdueCount === 1 ? 'tarefa em atraso' : 'tarefas em atraso' }}</h3>
+          <p>Revisa as tuas tarefas urgentes!</p>
+        </div>
+        <ion-button (click)="filterByStatus('overdue')" fill="outline" color="light" size="small">
+          Ver Tarefas
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Filtros -->
   <div class="filters-container">
     <!-- Filtro por projeto -->
