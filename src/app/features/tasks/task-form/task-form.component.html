@@ -51,7 +51,7 @@
       <ion-input
         formControlName="dueDate"
         type="date"
-        [min]="new Date().toISOString().split('T')[0]"
+        [min]="minDate"
         [class.ion-invalid]="hasError('dueDate')">
       </ion-input>
       <ion-note slot="error" *ngIf="hasError('dueDate')">

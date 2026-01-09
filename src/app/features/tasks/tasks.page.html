@@ -24,7 +24,7 @@
     <!-- Filtro por projeto -->
     <ion-segment 
       [(ngModel)]="selectedProjectId"
-      (ionChange)="filterByProject($event.detail.value)"
+      (ionChange)="filterByProject($event.detail.value || '')"
       class="project-filter">
       <ion-segment-button value="">
         <ion-label>Todos</ion-label>
@@ -37,7 +37,7 @@
     <!-- Filtro por estado -->
     <ion-segment 
       [(ngModel)]="statusFilter"
-      (ionChange)="filterByStatus($event.detail.value)"
+      (ionChange)="filterByStatus($event.detail.value || '')"
       class="status-filter">
       <ion-segment-button value="">
         <ion-label>Todas</ion-label>

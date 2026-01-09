@@ -59,6 +59,11 @@ export class TaskFormComponent implements OnInit {
    */
   imagePreviewUrl: string | null = null;
 
+  /**
+   * Data mínima para seleção (hoje)
+   */
+  minDate: string = new Date().toISOString().split('T')[0];
+
   constructor(
     private formBuilder: FormBuilder,
     private modalController: ModalController,

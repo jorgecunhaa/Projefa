@@ -20,11 +20,11 @@
   </ion-header>
 
   <!-- Filtro por categoria -->
-  <ion-segment 
-    *ngIf="categories.length > 0"
-    [(ngModel)]="selectedCategoryId"
-    (ionChange)="filterByCategory($event.detail.value)"
-    class="category-filter">
+    <ion-segment 
+      *ngIf="categories.length > 0"
+      [(ngModel)]="selectedCategoryId"
+      (ionChange)="filterByCategory($event.detail.value || '')"
+      class="category-filter">
     <ion-segment-button value="">
       <ion-label>Todas</ion-label>
     </ion-segment-button>

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { TaskService } from '../services/task.service';
 import { ProjectService } from '../../projects/services/project.service';
-import { TaskWithProject } from '../../core/models/task.model';
+import { TaskWithProject } from '../../../core/models/task.model';
 import { TaskFormComponent } from '../task-form/task-form.component';
 
 /**
