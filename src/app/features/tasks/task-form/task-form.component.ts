@@ -35,6 +35,11 @@ export class TaskFormComponent implements OnInit {
   @Input() projectId?: string;
 
   /**
+   * Data inicial para a tarefa (opcional, formato YYYY-MM-DD)
+   */
+  @Input() initialDate?: string;
+
+  /**
    * Formulário reativo
    */
   taskForm!: FormGroup;
@@ -71,14 +76,13 @@ export class TaskFormComponent implements OnInit {
     private taskService: TaskService,
     private projectService: ProjectService,
     private imageService: ImageService
-  ) {
-    this.initializeForm();
-  }
+  ) {}
 
   /**
    * Inicializa o componente
    */
   async ngOnInit(): Promise<void> {
+    this.initializeForm();
     await this.loadProjects();
     this.setupForm();
   }
@@ -87,14 +91,20 @@ export class TaskFormComponent implements OnInit {
    * Inicializa o formulário
    */
   private initializeForm(): void {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const tomorrowISO = tomorrow.toISOString().split('T')[0];
+    // Usar data inicial se fornecida, senão usar amanhã
+    let defaultDate: string;
+    if (this.initialDate) {
+      defaultDate = this.initialDate;
+    } else {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      defaultDate = tomorrow.toISOString().split('T')[0];
+    }
 
     this.taskForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
       description: ['', [Validators.maxLength(500)]],
-      dueDate: [tomorrowISO, Validators.required],
+      dueDate: [defaultDate, Validators.required],
       projectId: ['', Validators.required],
       image: [null]
     });

@@ -1,0 +1,126 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="calendar-outline" class="header-icon"></ion-icon>
+      Calendário
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToToday()" fill="clear">
+        <ion-icon slot="icon-only" name="today-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Calendário</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Navegação do mês -->
+  <ion-card class="month-navigation-card">
+    <ion-card-content>
+      <div class="month-navigation">
+        <ion-button (click)="previousMonth()" fill="clear" size="small">
+          <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+        
+        <div class="month-info">
+          <h2>{{ getCurrentMonthName() }} {{ currentYear }}</h2>
+        </div>
+        
+        <ion-button (click)="nextMonth()" fill="clear" size="small">
+          <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar calendário...</p>
+  </div>
+
+  <!-- Calendário -->
+  <div *ngIf="!isLoading" class="calendar-container">
+    <!-- Cabeçalho dos dias da semana -->
+    <div class="calendar-header">
+      <div *ngFor="let dayName of dayNames" class="day-header">
+        {{ dayName }}
+      </div>
+    </div>
+
+    <!-- Grid do calendário -->
+    <div class="calendar-grid">
+      <div
+        *ngFor="let day of calendarDays; let i = index"
+        [class.calendar-day]="day !== null"
+        [class.empty-day]="day === null"
+        [class.has-tasks]="hasTasks(day)"
+        [class.has-overdue]="hasOverdueTasks(day)"
+        [class.is-today]="isToday(day)"
+        [class.is-selected]="isSelected(day)"
+        (click)="day !== null && selectDay(day)"
+        class="calendar-day-cell">
+        
+        <span *ngIf="day !== null" class="day-number">{{ day }}</span>
+        
+        <!-- Indicadores de tarefas -->
+        <div *ngIf="day !== null && hasTasks(day)" class="task-indicators">
+          <ion-badge 
+            [color]="hasOverdueTasks(day) ? 'danger' : 'primary'"
+            class="task-count-badge">
+            {{ getTaskCount(day) }}
+          </ion-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tarefas do dia selecionado -->
+  <ion-card *ngIf="selectedDay !== null && selectedDayTasks.length > 0" class="selected-day-card">
+    <ion-card-header>
+      <ion-card-title>
+        Tarefas do dia {{ selectedDay }}
+        <ion-badge *ngIf="overdueCountsByDay[selectedDay] > 0" color="danger" class="overdue-badge-header">
+          {{ overdueCountsByDay[selectedDay] }} em atraso
+        </ion-badge>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="selected-day-tasks">
+        <app-task-card
+          *ngFor="let task of selectedDayTasks"
+          [task]="task"
+          [showProject]="true"
+          (click)="navigateToTask(task.id)"
+          class="task-card-mini">
+        </app-task-card>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Mensagem se não houver tarefas no dia selecionado -->
+  <ion-card *ngIf="selectedDay !== null && selectedDayTasks.length === 0" class="no-tasks-card">
+    <ion-card-content>
+      <div class="no-tasks-message">
+        <ion-icon name="checkmark-circle-outline" class="no-tasks-icon"></ion-icon>
+        <p>Nenhuma tarefa para este dia</p>
+        <ion-button (click)="createTaskForSelectedDay()" color="primary" size="small">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Criar Tarefa
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- FAB para criar tarefa no dia selecionado -->
+  <ion-fab *ngIf="selectedDay !== null" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createTaskForSelectedDay()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

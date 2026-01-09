@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () => import('./features/tasks/tasks.module').then(m => m.TasksModule)
+  },
+  {
+    path: 'calendar',
+    loadChildren: () => import('./features/calendar/calendar.module').then(m => m.CalendarModule)
   }
 ];
 @NgModule({
