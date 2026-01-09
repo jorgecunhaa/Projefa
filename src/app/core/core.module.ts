@@ -7,6 +7,12 @@ import { CommonModule } from '@angular/common';
  * Módulo singleton que contém serviços que devem ser instanciados apenas uma vez
  * na aplicação. Este módulo deve ser importado apenas no AppModule.
  * 
+ * Serviços disponíveis (providedIn: 'root'):
+ * - DatabaseService: Gestão da base de dados SQLite
+ * - StorageService: Gestão do Ionic Storage (fallback para web)
+ * - NotificationService: Gestão de notificações locais
+ * - DataSyncService: Sincronização entre SQLite e Storage
+ * 
  * @module CoreModule
  */
 @NgModule({
@@ -14,7 +20,10 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule
   ],
-  providers: []
+  providers: [
+    // Os serviços são fornecidos via providedIn: 'root'
+    // mas podem ser adicionados aqui se necessário para testes
+  ]
 })
 export class CoreModule {
   /**
