@@ -1,0 +1,137 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/projects"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <span *ngIf="project">{{ project.name }}</span>
+      <span *ngIf="!project">Projeto</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openEditModal()" fill="clear">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="deleteProject()" fill="clear" color="danger">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar projeto...</p>
+  </div>
+
+  <!-- Conteúdo do projeto -->
+  <div *ngIf="!isLoading && project">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <!-- Cabeçalho do projeto -->
+    <ion-card class="project-header-card" [ngStyle]="{'--category-color': project.categoryColor}">
+      <ion-card-header>
+        <div class="project-header">
+          <ion-avatar class="project-avatar">
+            <ion-icon [name]="project.categoryIcon" [style.color]="project.categoryColor"></ion-icon>
+          </ion-avatar>
+          <div class="project-info">
+            <h1>{{ project.name }}</h1>
+            <app-category-badge
+              [name]="project.categoryName"
+              [color]="project.categoryColor"
+              [icon]="project.categoryIcon"
+              [size]="'medium'">
+            </app-category-badge>
+          </div>
+        </div>
+      </ion-card-header>
+    </ion-card>
+
+    <!-- Estatísticas -->
+    <ion-card class="statistics-card">
+      <ion-card-header>
+        <ion-card-title>Estatísticas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <ion-icon name="list-outline" color="primary"></ion-icon>
+            <div class="stat-value">{{ statistics.total }}</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+            <div class="stat-value">{{ statistics.completed }}</div>
+            <div class="stat-label">Concluídas</div>
+          </div>
+          <div class="stat-item" *ngIf="statistics.overdue > 0">
+            <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+            <div class="stat-value">{{ statistics.overdue }}</div>
+            <div class="stat-label">Atraso</div>
+          </div>
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="progress-container" *ngIf="statistics.total > 0">
+          <div class="progress-bar">
+            <div 
+              class="progress-fill" 
+              [style.width.%]="statistics.percentage"
+              [style.background-color]="project.categoryColor">
+            </div>
+          </div>
+          <span class="progress-text">{{ statistics.percentage }}% concluído</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Tarefas (será implementado no módulo de tarefas) -->
+    <ion-card class="tasks-card">
+      <ion-card-header>
+        <ion-card-title>Tarefas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="empty-tasks" *ngIf="statistics.total === 0">
+          <ion-icon name="checkmark-done-outline" class="empty-icon"></ion-icon>
+          <p>Este projeto ainda não tem tarefas.</p>
+          <ion-button (click)="navigateToCreateTask()" color="primary" size="small">
+            <ion-icon slot="start" name="add-outline"></ion-icon>
+            Criar Tarefa
+          </ion-button>
+        </div>
+        <p *ngIf="statistics.total > 0">As tarefas serão exibidas aqui (módulo de tarefas)</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Informações adicionais -->
+    <ion-card class="info-card">
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h3>Criado em</h3>
+            <p>{{ project.createdAt | dateFormat:'full' }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="time-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h3>Última atualização</h3>
+            <p>{{ project.updatedAt | dateFormat:'full' }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- FAB para criar tarefa -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="project">
+    <ion-fab-button (click)="navigateToCreateTask()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

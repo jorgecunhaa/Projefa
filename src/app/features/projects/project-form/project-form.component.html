@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ isEditMode ? 'Editar Projeto' : 'Novo Projeto' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fade-in">
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <!-- Nome do projeto -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('name')">
+      <ion-label position="stacked">
+        Nome do Projeto <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input
+        formControlName="name"
+        type="text"
+        placeholder="Ex: Projeto Final, Tarefas Diárias"
+        [class.ion-invalid]="hasError('name')">
+      </ion-input>
+      <ion-note slot="error" *ngIf="hasError('name')">
+        {{ getErrorMessage('name') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Seleção de categoria -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('categoryId')">
+      <ion-label position="stacked">
+        Categoria <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select
+        formControlName="categoryId"
+        placeholder="Seleciona uma categoria"
+        [class.ion-invalid]="hasError('categoryId')">
+        <ion-select-option *ngFor="let category of categories" [value]="category.id">
+          <div class="category-option">
+            <app-category-badge
+              [name]="category.name"
+              [color]="category.color"
+              [icon]="category.icon"
+              [size]="'small'">
+            </app-category-badge>
+          </div>
+        </ion-select-option>
+      </ion-select>
+      <ion-note slot="error" *ngIf="hasError('categoryId')">
+        {{ getErrorMessage('categoryId') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Mensagem se não houver categorias -->
+    <ion-card *ngIf="categories.length === 0" color="warning" class="warning-card">
+      <ion-card-content>
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>Não há categorias disponíveis. Cria uma categoria primeiro!</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Preview -->
+    <ion-card *ngIf="getSelectedCategory()" class="preview-card">
+      <ion-card-header>
+        <ion-card-title>Pré-visualização</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="preview-content">
+          <h3>{{ projectForm.get('name')?.value || 'Nome do Projeto' }}</h3>
+          <app-category-badge
+            *ngIf="getSelectedCategory()"
+            [name]="getSelectedCategory()!.name"
+            [color]="getSelectedCategory()!.color"
+            [icon]="getSelectedCategory()!.icon"
+            [size]="'medium'">
+          </app-category-badge>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botões de ação -->
+    <div class="form-actions">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="projectForm.invalid || categories.length === 0"
+        color="primary"
+        class="submit-button">
+        <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+        {{ isEditMode ? 'Atualizar' : 'Criar' }} Projeto
+      </ion-button>
+      
+      <ion-button
+        expand="block"
+        fill="outline"
+        (click)="cancel()"
+        color="medium">
+        Cancelar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

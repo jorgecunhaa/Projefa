@@ -1,0 +1,89 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="briefcase-outline" class="header-icon"></ion-icon>
+      Projetos
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()" fill="clear">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Projetos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Filtro por categoria -->
+  <ion-segment 
+    *ngIf="categories.length > 0"
+    [(ngModel)]="selectedCategoryId"
+    (ionChange)="filterByCategory($event.detail.value)"
+    class="category-filter">
+    <ion-segment-button value="">
+      <ion-label>Todas</ion-label>
+    </ion-segment-button>
+    <ion-segment-button *ngFor="let category of categories" [value]="category.id">
+      <ion-label>
+        <app-category-badge
+          [name]="category.name"
+          [color]="category.color"
+          [icon]="category.icon"
+          [size]="'small'"
+          [showIcon]="false">
+        </app-category-badge>
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar projetos...</p>
+  </div>
+
+  <!-- Lista vazia -->
+  <div *ngIf="!isLoading && projects.length === 0" class="empty-state">
+    <ion-icon name="briefcase-outline" class="empty-icon"></ion-icon>
+    <h2>Nenhum projeto</h2>
+    <p *ngIf="selectedCategoryId && selectedCategoryId !== ''">Não há projetos nesta categoria.</p>
+    <p *ngIf="!selectedCategoryId || selectedCategoryId === ''">Cria o teu primeiro projeto para começar a organizar as tuas tarefas!</p>
+    <ion-button (click)="openCreateModal()" color="primary" class="create-button">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Criar Projeto
+    </ion-button>
+  </div>
+
+  <!-- Lista de projetos -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="!isLoading && projects.length > 0" class="projects-grid">
+    <app-project-card
+      *ngFor="let project of projects"
+      [project]="project"
+      [categoryName]="project.categoryName"
+      [categoryColor]="project.categoryColor"
+      [categoryIcon]="project.categoryIcon"
+      [taskCount]="0"
+      [completedTaskCount]="0"
+      [overdueTaskCount]="0"
+      (click)="navigateToProjectDetail(project.id)"
+      (delete)="deleteProject(project)"
+      class="project-card-item">
+    </app-project-card>
+  </div>
+
+  <!-- FAB para criar projeto -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openCreateModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
