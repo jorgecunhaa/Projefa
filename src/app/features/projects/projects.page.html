@@ -23,7 +23,7 @@
     <ion-segment 
       *ngIf="categories.length > 0"
       [(ngModel)]="selectedCategoryId"
-      (ionChange)="filterByCategory($event.detail.value || '')"
+      (ionChange)="filterByCategory(String($event.detail.value || ''))"
       class="category-filter">
     <ion-segment-button value="">
       <ion-label>Todas</ion-label>
