@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Projefa
 
 Aplicação móvel para Gestão de Tarefas desenvolvida com Ionic + Angular (NgModules).
@@ -86,3 +87,6 @@ Este projeto foi desenvolvido para fins académicos.
 ## 👨‍💻 Autor
 
 Desenvolvido para a cadeira de Programação Móvel e Ubíqua.
+=======
+# Projefa
+>>>>>>> 683d280bfd39951859a668c8eee75de53d8fcadc
