@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ isEditMode ? 'Editar Categoria' : 'Nova Categoria' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fade-in">
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+    <!-- Nome da categoria -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('name')">
+      <ion-label position="stacked">
+        Nome da Categoria <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input
+        formControlName="name"
+        type="text"
+        placeholder="Ex: Escola, Trabalho, Pessoal"
+        [class.ion-invalid]="hasError('name')">
+      </ion-input>
+      <ion-note slot="error" *ngIf="hasError('name')">
+        {{ getErrorMessage('name') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Seleção de cor -->
+    <ion-item lines="none" class="color-selection">
+      <ion-label position="stacked">
+        Cor da Categoria <ion-text color="danger">*</ion-text>
+      </ion-label>
+    </ion-item>
+    
+    <div class="color-picker">
+      <div
+        *ngFor="let color of availableColors"
+        [class.selected]="selectedColor === color"
+        [style.background-color]="color"
+        class="color-option"
+        (click)="selectColor(color)">
+        <ion-icon *ngIf="selectedColor === color" name="checkmark" color="light"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Seleção de ícone -->
+    <ion-item lines="none" class="icon-selection">
+      <ion-label position="stacked">
+        Ícone da Categoria <ion-text color="danger">*</ion-text>
+      </ion-label>
+    </ion-item>
+
+    <div class="icon-picker">
+      <div
+        *ngFor="let icon of availableIcons"
+        [class.selected]="selectedIcon === icon"
+        class="icon-option"
+        (click)="selectIcon(icon)">
+        <ion-icon [name]="icon" [style.color]="selectedColor"></ion-icon>
+        <ion-icon *ngIf="selectedIcon === icon" name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <ion-card class="preview-card">
+      <ion-card-header>
+        <ion-card-title>Pré-visualização</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <app-category-badge
+          [name]="categoryForm.get('name')?.value || 'Nome da Categoria'"
+          [color]="selectedColor"
+          [icon]="selectedIcon"
+          [size]="'large'">
+        </app-category-badge>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botões de ação -->
+    <div class="form-actions">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="categoryForm.invalid"
+        color="primary"
+        class="submit-button">
+        <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+        {{ isEditMode ? 'Atualizar' : 'Criar' }} Categoria
+      </ion-button>
+      
+      <ion-button
+        expand="block"
+        fill="outline"
+        (click)="cancel()"
+        color="medium">
+        Cancelar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,144 @@
+/**
+ * Category Form Component Styles
+ * 
+ * Estilos para o formulário de categoria.
+ */
+
+.color-selection,
+.icon-selection {
+  margin-top: 16px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+.color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  justify-content: center;
+}
+
+.color-option {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &.selected {
+    border-color: var(--ion-color-dark);
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+.icon-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  justify-content: center;
+}
+
+.icon-option {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ion-color-light);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+
+  ion-icon {
+    font-size: 28px;
+    transition: all 0.3s ease;
+  }
+
+  .check-icon {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 20px;
+    color: var(--ion-color-success);
+    background: white;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+    border-color: var(--ion-color-primary);
+    background: rgba(139, 0, 0, 0.05);
+  }
+
+  &.selected {
+    border-color: var(--ion-color-primary);
+    background: rgba(139, 0, 0, 0.1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
+  }
+}
+
+.preview-card {
+  margin: 24px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-card-content {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+}
+
+.form-actions {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .submit-button {
+    margin-top: 8px;
+  }
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .color-picker,
+  .icon-picker {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .color-option {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-option {
+    width: 48px;
+    height: 48px;
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}

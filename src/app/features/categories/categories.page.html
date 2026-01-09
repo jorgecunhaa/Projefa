@@ -1,0 +1,91 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="folder-outline" class="header-icon"></ion-icon>
+      Categorias
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()" fill="clear">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Categorias</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar categorias...</p>
+  </div>
+
+  <!-- Lista vazia -->
+  <div *ngIf="!isLoading && categories.length === 0" class="empty-state">
+    <ion-icon name="folder-outline" class="empty-icon"></ion-icon>
+    <h2>Nenhuma categoria</h2>
+    <p>Cria a tua primeira categoria para começar a organizar os teus projetos!</p>
+    <ion-button (click)="openCreateModal()" color="primary" class="create-button">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Criar Categoria
+    </ion-button>
+  </div>
+
+  <!-- Lista de categorias -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngIf="!isLoading && categories.length > 0" class="categories-list">
+    <ion-item-sliding *ngFor="let category of categories" class="category-item">
+      <ion-item 
+        (click)="openEditModal(category)"
+        class="category-item-content"
+        lines="full">
+        
+        <!-- Ícone e cor da categoria -->
+        <ion-avatar slot="start" class="category-avatar" [style.background-color]="category.color + '20'">
+          <ion-icon [name]="category.icon" [style.color]="category.color"></ion-icon>
+        </ion-avatar>
+
+        <!-- Informações da categoria -->
+        <ion-label>
+          <h2>{{ category.name }}</h2>
+          <p>Criada em {{ category.createdAt | dateFormat:'short' }}</p>
+        </ion-label>
+
+        <!-- Badge da categoria -->
+        <app-category-badge
+          slot="end"
+          [name]="category.name"
+          [color]="category.color"
+          [icon]="category.icon"
+          [size]="'small'"
+          [showIcon]="false">
+        </app-category-badge>
+      </ion-item>
+
+      <!-- Opções de deslizar -->
+      <ion-item-options side="end">
+        <ion-item-option (click)="openEditModal(category)" color="primary">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option (click)="deleteCategory(category)" color="danger">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- FAB para criar categoria -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openCreateModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
