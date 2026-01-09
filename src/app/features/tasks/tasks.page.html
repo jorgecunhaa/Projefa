@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="checkmark-circle-outline" class="header-icon"></ion-icon>
+      Tarefas
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()" fill="clear">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tarefas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Filtros -->
+  <div class="filters-container">
+    <!-- Filtro por projeto -->
+    <ion-segment 
+      [(ngModel)]="selectedProjectId"
+      (ionChange)="filterByProject($event.detail.value)"
+      class="project-filter">
+      <ion-segment-button value="">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button *ngFor="let project of projects" [value]="project.id">
+        <ion-label>{{ project.name }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Filtro por estado -->
+    <ion-segment 
+      [(ngModel)]="statusFilter"
+      (ionChange)="filterByStatus($event.detail.value)"
+      class="status-filter">
+      <ion-segment-button value="">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pending">
+        <ion-label>Pendentes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="completed">
+        <ion-label>Concluídas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="overdue">
+        <ion-label>Atraso</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar tarefas...</p>
+  </div>
+
+  <!-- Lista vazia -->
+  <div *ngIf="!isLoading && tasks.length === 0" class="empty-state">
+    <ion-icon name="checkmark-done-outline" class="empty-icon"></ion-icon>
+    <h2>Nenhuma tarefa</h2>
+    <p>Cria a tua primeira tarefa para começar a organizar o teu trabalho!</p>
+    <ion-button (click)="openCreateModal()" color="primary" class="create-button">
+      <ion-icon slot="start" name="add-outline"></ion-icon>
+      Criar Tarefa
+    </ion-button>
+  </div>
+
+  <!-- Lista de tarefas -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="!isLoading && tasks.length > 0" class="tasks-container">
+    <app-task-card
+      *ngFor="let task of tasks"
+      [task]="task"
+      [showProject]="!selectedProjectId || selectedProjectId === ''"
+      (click)="navigateToTaskDetail(task.id)"
+      (complete)="toggleTaskCompletion(task)"
+      (delete)="deleteTask(task)"
+      class="task-card-item">
+    </app-task-card>
+  </div>
+
+  <!-- FAB para criar tarefa -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openCreateModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

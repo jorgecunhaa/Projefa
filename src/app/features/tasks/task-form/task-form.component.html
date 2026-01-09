@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ isEditMode ? 'Editar Tarefa' : 'Nova Tarefa' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()" fill="clear">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="fade-in">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <!-- Título -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('title')">
+      <ion-label position="stacked">
+        Título <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input
+        formControlName="title"
+        type="text"
+        placeholder="Ex: Completar relatório"
+        [class.ion-invalid]="hasError('title')">
+      </ion-input>
+      <ion-note slot="error" *ngIf="hasError('title')">
+        {{ getErrorMessage('title') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Descrição -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('description')">
+      <ion-label position="stacked">
+        Descrição
+      </ion-label>
+      <ion-textarea
+        formControlName="description"
+        placeholder="Descrição detalhada da tarefa..."
+        rows="4"
+        [class.ion-invalid]="hasError('description')">
+      </ion-textarea>
+      <ion-note slot="error" *ngIf="hasError('description')">
+        {{ getErrorMessage('description') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Data limite -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('dueDate')">
+      <ion-label position="stacked">
+        Data Limite <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input
+        formControlName="dueDate"
+        type="date"
+        [min]="new Date().toISOString().split('T')[0]"
+        [class.ion-invalid]="hasError('dueDate')">
+      </ion-input>
+      <ion-note slot="error" *ngIf="hasError('dueDate')">
+        {{ getErrorMessage('dueDate') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Projeto -->
+    <ion-item lines="full" [class.ion-invalid]="hasError('projectId')">
+      <ion-label position="stacked">
+        Projeto <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-select
+        formControlName="projectId"
+        placeholder="Seleciona um projeto"
+        [class.ion-invalid]="hasError('projectId')">
+        <ion-select-option *ngFor="let project of projects" [value]="project.id">
+          {{ project.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-note slot="error" *ngIf="hasError('projectId')">
+        {{ getErrorMessage('projectId') }}
+      </ion-note>
+    </ion-item>
+
+    <!-- Imagem -->
+    <ion-item lines="none" class="image-item">
+      <ion-label>Imagem</ion-label>
+      <ion-button (click)="showImageSourceOptions()" fill="outline" size="small">
+        <ion-icon slot="start" name="camera-outline"></ion-icon>
+        {{ capturedImage ? 'Alterar' : 'Adicionar' }} Imagem
+      </ion-button>
+    </ion-item>
+
+    <!-- Pré-visualização da imagem -->
+    <div *ngIf="imagePreviewUrl" class="image-preview">
+      <img [src]="imagePreviewUrl" alt="Imagem da tarefa" />
+      <ion-button (click)="removeImage()" fill="clear" color="danger" class="remove-image-btn">
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Mensagem se não houver projetos -->
+    <ion-card *ngIf="projects.length === 0" color="warning" class="warning-card">
+      <ion-card-content>
+        <ion-icon name="alert-circle-outline"></ion-icon>
+        <p>Não há projetos disponíveis. Cria um projeto primeiro!</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Botões de ação -->
+    <div class="form-actions">
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="taskForm.invalid || projects.length === 0"
+        color="primary"
+        class="submit-button">
+        <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+        {{ isEditMode ? 'Atualizar' : 'Criar' }} Tarefa
+      </ion-button>
+      
+      <ion-button
+        expand="block"
+        fill="outline"
+        (click)="cancel()"
+        color="medium">
+        Cancelar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

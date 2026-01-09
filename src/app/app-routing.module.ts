@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'projects',
     loadChildren: () => import('./features/projects/projects.module').then(m => m.ProjectsModule)
+  },
+  {
+    path: 'tasks',
+    loadChildren: () => import('./features/tasks/tasks.module').then(m => m.TasksModule)
   }
 ];
 @NgModule({

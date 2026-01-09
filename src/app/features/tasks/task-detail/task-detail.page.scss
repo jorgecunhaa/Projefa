@@ -1,0 +1,151 @@
+/**
+ * Task Detail Page Styles
+ * 
+ * Estilos para a página de detalhes da tarefa.
+ */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 16px;
+
+  p {
+    color: var(--ion-color-medium);
+    margin-top: 16px;
+  }
+}
+
+.task-image-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.task-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.task-header-card {
+  margin: 0;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  &.task-overdue {
+    border-left: 4px solid var(--ion-color-danger);
+    background: rgba(235, 68, 90, 0.05);
+  }
+
+  &.task-completed {
+    opacity: 0.8;
+  }
+}
+
+.task-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.completion-checkbox {
+  margin-top: 4px;
+}
+
+.task-info {
+  flex: 1;
+
+  h1 {
+    margin: 0 0 12px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+
+    &.completed-text {
+      text-decoration: line-through;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.description-card,
+.info-card {
+  margin: 16px;
+  border-radius: 12px;
+}
+
+.description-card {
+  ion-card-content {
+    p {
+      margin: 0;
+      color: var(--ion-color-dark);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+  }
+}
+
+.info-card {
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 64px;
+    margin: 8px 0;
+
+    ion-icon[slot="start"] {
+      font-size: 1.5rem;
+      margin-right: 12px;
+    }
+
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--ion-color-dark);
+
+      &.relative-date {
+        font-size: 0.85rem;
+        color: var(--ion-color-primary);
+        font-weight: 500;
+        margin-top: 4px;
+      }
+    }
+  }
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .task-image {
+    max-height: 250px;
+  }
+
+  .task-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-info h1 {
+    font-size: 1.3rem;
+  }
+}

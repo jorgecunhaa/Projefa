@@ -1,0 +1,119 @@
+/**
+ * Tasks Page Styles
+ * 
+ * Estilos para a página de tarefas.
+ */
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.filters-container {
+  padding: 8px 16px;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.project-filter,
+.status-filter {
+  margin: 8px 0;
+  border-radius: 12px;
+  background: white;
+  padding: 4px;
+
+  ion-segment-button {
+    --indicator-color: var(--ion-color-primary);
+    --color: var(--ion-color-medium);
+    --color-checked: var(--ion-color-primary);
+    min-height: 36px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 16px;
+
+  p {
+    color: var(--ion-color-medium);
+    margin-top: 16px;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  height: 60vh;
+
+  .empty-icon {
+    font-size: 80px;
+    color: var(--ion-color-medium);
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    color: var(--ion-color-dark);
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+    margin-bottom: 24px;
+    max-width: 300px;
+  }
+
+  .create-button {
+    margin-top: 16px;
+  }
+}
+
+.tasks-container {
+  padding: 8px 0;
+}
+
+.task-card-item {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .filters-container {
+    padding: 4px 8px;
+  }
+
+  .project-filter,
+  .status-filter {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    ion-segment-button {
+      min-width: auto;
+      padding: 0 8px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .empty-state {
+    padding: 32px 16px;
+
+    .empty-icon {
+      font-size: 60px;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+    }
+  }
+}

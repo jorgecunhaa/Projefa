@@ -1,0 +1,83 @@
+/**
+ * Task Form Component Styles
+ * 
+ * Estilos para o formulário de tarefa.
+ */
+
+.warning-card {
+  margin: 16px;
+  border-radius: 12px;
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+
+    ion-icon {
+      font-size: 24px;
+      color: var(--ion-color-warning);
+    }
+
+    p {
+      margin: 0;
+      color: var(--ion-color-dark);
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.image-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  margin: 16px 0;
+}
+
+.image-preview {
+  position: relative;
+  margin: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 300px;
+    object-fit: cover;
+  }
+
+  .remove-image-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    --background: rgba(235, 68, 90, 0.9);
+    --color: white;
+    --border-radius: 50%;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.form-actions {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .submit-button {
+    margin-top: 8px;
+  }
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .image-preview {
+    margin: 8px;
+
+    img {
+      max-height: 200px;
+    }
+  }
+}
