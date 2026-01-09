@@ -35,3 +35,214 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * Importar animações personalizadas
+ */
+@import './theme/animations.scss';
+
+/**
+ * Estilos Globais Personalizados - Projefa
+ */
+
+/** Reset e melhorias globais */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ion-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/** Melhorias de scroll */
+ion-content {
+  --overflow: auto;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+/** Estilos para cards */
+ion-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+ion-card-header {
+  padding-bottom: 8px;
+}
+
+/** Estilos para botões */
+ion-button {
+  --border-radius: 8px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+/** Estilos para items de lista */
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  --min-height: 56px;
+  --border-radius: 8px;
+  margin: 4px 16px;
+}
+
+ion-item:hover {
+  --background: rgba(139, 0, 0, 0.05);
+}
+
+/** Estilos para inputs */
+ion-input,
+ion-textarea {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
+
+/** Estilos para toolbar */
+ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  --min-height: 56px;
+}
+
+/** Estilos para FAB */
+ion-fab-button {
+  --box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+}
+
+ion-fab-button:hover {
+  --box-shadow: 0 6px 16px rgba(139, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+/** Estilos para modais */
+ion-modal {
+  --border-radius: 16px 16px 0 0;
+  --backdrop-opacity: 0.5;
+}
+
+/** Estilos para alertas */
+ion-alert {
+  --border-radius: 12px;
+}
+
+/** Estilos para loading */
+ion-loading {
+  --spinner-color: var(--ion-color-primary);
+}
+
+/** Estilos para toast */
+ion-toast {
+  --border-radius: 8px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/** Estilos para segment */
+ion-segment {
+  --background: rgba(139, 0, 0, 0.1);
+  --indicator-color: var(--ion-color-primary);
+}
+
+/** Estilos para chips */
+ion-chip {
+  --background: rgba(139, 0, 0, 0.1);
+  --color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+/** Estilos para badges */
+ion-badge {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+  font-weight: 600;
+  border-radius: 12px;
+}
+
+/** Estilos para avatares */
+ion-avatar {
+  --border-radius: 50%;
+  border: 2px solid var(--ion-color-primary);
+}
+
+/** Utilitários de espaçamento */
+.spacing-top {
+  margin-top: 16px;
+}
+
+.spacing-bottom {
+  margin-bottom: 16px;
+}
+
+.spacing-horizontal {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+/** Utilitários de texto */
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: var(--ion-color-primary);
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+/** Utilitários de animação */
+.animate-on-load {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/** Estilos para tarefas em atraso */
+.task-overdue {
+  --background: rgba(235, 68, 90, 0.1);
+  border-left: 4px solid var(--ion-color-danger);
+}
+
+/** Estilos para tarefas concluídas */
+.task-completed {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+/** Estilos para projetos */
+.project-card {
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+  color: var(--ion-color-primary-contrast);
+}
+
+/** Estilos responsivos */
+@media (max-width: 768px) {
+  ion-card {
+    margin: 8px;
+  }
+
+  ion-item {
+    margin: 2px 8px;
+  }
+}
+
+/** Estilos para modo escuro */
+@media (prefers-color-scheme: dark) {
+  ion-card {
+    --background: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .task-overdue {
+    --background: rgba(235, 68, 90, 0.2);
+  }
+}
