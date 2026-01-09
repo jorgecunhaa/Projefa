@@ -176,6 +176,24 @@ export class TasksPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Manipula a mudança de filtro de projeto
+   * @param value - Valor do segment (pode ser string, number ou undefined)
+   */
+  async onProjectFilterChange(value: any): Promise<void> {
+    const projectId = value ? String(value) : '';
+    await this.filterByProject(projectId);
+  }
+
+  /**
+   * Manipula a mudança de filtro de estado
+   * @param value - Valor do segment (pode ser string, number ou undefined)
+   */
+  async onStatusFilterChange(value: any): Promise<void> {
+    const status = value ? String(value) : '';
+    await this.filterByStatus(status);
+  }
+
+  /**
    * Filtra tarefas por projeto
    * @param projectId - ID do projeto ('' para todos)
    */

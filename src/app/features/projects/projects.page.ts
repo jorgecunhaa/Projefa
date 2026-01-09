@@ -133,6 +133,15 @@ export class ProjectsPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Manipula a mudança de filtro de categoria
+   * @param value - Valor do segment (pode ser string, number ou undefined)
+   */
+  async onCategoryFilterChange(value: any): Promise<void> {
+    const categoryId = value ? String(value) : '';
+    await this.filterByCategory(categoryId);
+  }
+
+  /**
    * Filtra projetos por categoria
    * @param categoryId - ID da categoria ('' para todas)
    */
