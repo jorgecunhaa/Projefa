@@ -1,0 +1,7 @@
+{
+  "name": "Projefa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
