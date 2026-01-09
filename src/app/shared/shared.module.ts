@@ -3,18 +3,39 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// Pipes
+import { DateFormatPipe } from './pipes/date-format.pipe';
+
+// Components
+import { TaskCardComponent } from './components/task-card/task-card.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { CategoryBadgeComponent } from './components/category-badge/category-badge.component';
+
 /**
  * Shared Module
  * 
  * Módulo compartilhado que contém componentes, pipes e diretivas
  * reutilizáveis em toda a aplicação.
  * 
+ * Componentes exportados:
+ * - TaskCardComponent: Card para exibir tarefas
+ * - ProjectCardComponent: Card para exibir projetos
+ * - CategoryBadgeComponent: Badge para exibir categorias
+ * 
+ * Pipes exportados:
+ * - DateFormatPipe: Formatação de datas
+ * 
  * @module SharedModule
  */
 @NgModule({
   declarations: [
-    // Componentes compartilhados serão adicionados aqui
-    // Pipes compartilhados serão adicionados aqui
+    // Pipes
+    DateFormatPipe,
+    
+    // Components
+    TaskCardComponent,
+    ProjectCardComponent,
+    CategoryBadgeComponent
   ],
   imports: [
     CommonModule,
@@ -26,8 +47,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     IonicModule,
     FormsModule,
-    ReactiveFormsModule
-    // Componentes e pipes serão exportados aqui
+    ReactiveFormsModule,
+    
+    // Pipes
+    DateFormatPipe,
+    
+    // Components
+    TaskCardComponent,
+    ProjectCardComponent,
+    CategoryBadgeComponent
   ]
 })
 export class SharedModule { }

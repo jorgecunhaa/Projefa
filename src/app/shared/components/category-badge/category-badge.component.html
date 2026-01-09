@@ -1,0 +1,13 @@
+<ion-chip 
+  [ngStyle]="getCategoryStyle()"
+  [class]="getSizeClass()"
+  class="category-badge">
+  
+  <ion-icon 
+    *ngIf="showIcon"
+    [name]="icon"
+    class="category-icon">
+  </ion-icon>
+  
+  <span class="category-name">{{ name }}</span>
+</ion-chip>

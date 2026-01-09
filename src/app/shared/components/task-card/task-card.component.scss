@@ -1,0 +1,144 @@
+/**
+ * Task Card Component Styles
+ * 
+ * Estilos para o componente de card de tarefa.
+ */
+
+.task-card {
+  position: relative;
+  margin: 12px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(139, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(-2px);
+    }
+  }
+
+  &.task-overdue {
+    border-left: 4px solid var(--ion-color-danger);
+    background: rgba(235, 68, 90, 0.05);
+  }
+
+  &.task-completed {
+    opacity: 0.7;
+
+    .task-title,
+    .task-description {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.task-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.task-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+
+  ion-checkbox {
+    margin: 0;
+  }
+
+  span {
+    flex: 1;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+
+    &.completed-text {
+      text-decoration: line-through;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.project-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ion-color-primary);
+  font-size: 0.9rem;
+  margin-top: 4px;
+
+  ion-icon {
+    font-size: 1rem;
+  }
+}
+
+.task-description {
+  color: var(--ion-color-medium);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 12px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.due-date-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+
+  ion-icon {
+    font-size: 1rem;
+  }
+}
+
+.overdue-badge,
+.due-soon-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.delete-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  --box-shadow: 0 2px 8px rgba(235, 68, 90, 0.3);
+  z-index: 10;
+
+  &:hover {
+    --box-shadow: 0 4px 12px rgba(235, 68, 90, 0.5);
+    transform: scale(1.1);
+  }
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .task-card {
+    margin: 8px 12px;
+  }
+
+  .task-image {
+    height: 150px;
+  }
+}

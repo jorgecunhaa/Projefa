@@ -1,0 +1,70 @@
+<ion-card 
+  [class.clickable]="clickable"
+  [ngStyle]="getCategoryStyle()"
+  (click)="onCardClick()"
+  class="project-card fade-in project-card-gradient">
+  
+  <ion-card-header>
+    <ion-card-title class="project-title">
+      <ion-icon [name]="categoryIcon" class="category-icon"></ion-icon>
+      <span>{{ project.name }}</span>
+    </ion-card-title>
+    
+    <!-- Categoria -->
+    <ion-card-subtitle *ngIf="categoryName" class="category-name">
+      <app-category-badge 
+        [name]="categoryName"
+        [color]="categoryColor"
+        [icon]="categoryIcon">
+      </app-category-badge>
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- Estatísticas do projeto -->
+    <div class="project-stats">
+      <!-- Total de tarefas -->
+      <div class="stat-item">
+        <ion-icon name="list-outline"></ion-icon>
+        <span class="stat-value">{{ taskCount }}</span>
+        <span class="stat-label">Tarefas</span>
+      </div>
+
+      <!-- Tarefas concluídas -->
+      <div class="stat-item">
+        <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+        <span class="stat-value">{{ completedTaskCount }}</span>
+        <span class="stat-label">Concluídas</span>
+      </div>
+
+      <!-- Tarefas em atraso -->
+      <div class="stat-item" *ngIf="overdueTaskCount > 0">
+        <ion-icon name="alert-circle-outline" color="danger"></ion-icon>
+        <span class="stat-value">{{ overdueTaskCount }}</span>
+        <span class="stat-label">Atraso</span>
+      </div>
+    </div>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container" *ngIf="taskCount > 0">
+      <div class="progress-bar">
+        <div 
+          class="progress-fill" 
+          [style.width.%]="getCompletionPercentage()"
+          [style.background-color]="categoryColor">
+        </div>
+      </div>
+      <span class="progress-text">{{ getCompletionPercentage() }}% concluído</span>
+    </div>
+  </ion-card-content>
+
+  <!-- Botão de eliminar -->
+  <ion-fab-button 
+    *ngIf="clickable"
+    (click)="onDeleteClick($event)"
+    color="danger"
+    size="small"
+    class="delete-button">
+    <ion-icon name="trash-outline"></ion-icon>
+  </ion-fab-button>
+</ion-card>

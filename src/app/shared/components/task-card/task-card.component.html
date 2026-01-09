@@ -1,0 +1,71 @@
+<ion-card 
+  [class.task-overdue]="isOverdue()"
+  [class.task-completed]="task.completed"
+  [class.clickable]="clickable"
+  (click)="onCardClick()"
+  class="task-card fade-in">
+  
+  <!-- Imagem da tarefa (se existir) -->
+  <img 
+    *ngIf="getImageUrl()" 
+    [src]="getImageUrl()" 
+    alt="Imagem da tarefa"
+    class="task-image" />
+
+  <ion-card-header>
+    <ion-card-title class="task-title">
+      <ion-checkbox 
+        [checked]="task.completed"
+        (ionChange)="onCompleteChange($event)"
+        (click)="$event.stopPropagation()"
+        color="primary">
+      </ion-checkbox>
+      <span [class.completed-text]="task.completed">{{ task.title }}</span>
+    </ion-card-title>
+    
+    <!-- Nome do projeto (se solicitado) -->
+    <ion-card-subtitle *ngIf="showProject && projectName" class="project-name">
+      <ion-icon name="folder-outline"></ion-icon>
+      {{ projectName }}
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- Descrição -->
+    <p *ngIf="task.description" class="task-description">
+      {{ task.description }}
+    </p>
+
+    <!-- Data limite com indicadores -->
+    <div class="task-meta">
+      <ion-chip 
+        [color]="isOverdue() ? 'danger' : (isDueSoon() ? 'warning' : 'primary')"
+        class="due-date-chip">
+        <ion-icon 
+          [name]="isOverdue() ? 'alert-circle' : 'calendar-outline'">
+        </ion-icon>
+        <span>{{ task.dueDate | dateFormat:'relative' }}</span>
+      </ion-chip>
+
+      <!-- Badge de atraso -->
+      <ion-badge *ngIf="isOverdue()" color="danger" class="overdue-badge">
+        Em Atraso
+      </ion-badge>
+
+      <!-- Badge de próximo -->
+      <ion-badge *ngIf="isDueSoon() && !isOverdue()" color="warning" class="due-soon-badge">
+        Próximo
+      </ion-badge>
+    </div>
+  </ion-card-content>
+
+  <!-- Botão de eliminar -->
+  <ion-fab-button 
+    *ngIf="clickable"
+    (click)="onDeleteClick($event)"
+    color="danger"
+    size="small"
+    class="delete-button">
+    <ion-icon name="trash-outline"></ion-icon>
+  </ion-fab-button>
+</ion-card>

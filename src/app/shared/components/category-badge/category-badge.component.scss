@@ -1,0 +1,68 @@
+/**
+ * Category Badge Component Styles
+ * 
+ * Estilos para o componente de badge de categoria.
+ */
+
+.category-badge {
+  --background: var(--category-bg, rgba(139, 0, 0, 0.1));
+  --color: var(--category-color, var(--ion-color-primary));
+  border: 1px solid var(--category-border, var(--category-color, var(--ion-color-primary)));
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    --background: var(--category-color, var(--ion-color-primary));
+    --color: var(--ion-color-primary-contrast);
+    transform: scale(1.05);
+  }
+}
+
+.category-icon {
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+.category-name {
+  font-size: 0.9rem;
+}
+
+/** Tamanhos */
+.badge-small {
+  font-size: 0.75rem;
+  height: 24px;
+
+  .category-icon {
+    font-size: 0.85rem;
+  }
+
+  .category-name {
+    font-size: 0.75rem;
+  }
+}
+
+.badge-medium {
+  font-size: 0.9rem;
+  height: 32px;
+
+  .category-icon {
+    font-size: 1rem;
+  }
+
+  .category-name {
+    font-size: 0.9rem;
+  }
+}
+
+.badge-large {
+  font-size: 1rem;
+  height: 40px;
+
+  .category-icon {
+    font-size: 1.2rem;
+  }
+
+  .category-name {
+    font-size: 1rem;
+  }
+}
