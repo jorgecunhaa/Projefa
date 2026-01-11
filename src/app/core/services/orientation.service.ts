@@ -95,19 +95,16 @@ export class OrientationService {
   /**
    * Obtém a orientação atual
    * @returns Promise com a orientação atual
+   * @note O método getCurrentOrientation não está disponível na API atual
    */
   async getCurrentOrientation(): Promise<string | null> {
     if (!this.isAvailable) {
       return null;
     }
 
-    try {
-      const result = await ScreenOrientation.getCurrentOrientation();
-      return result.type;
-    } catch (error) {
-      console.error('Erro ao obter orientação atual:', error);
-      return null;
-    }
+    // O método getCurrentOrientation não está disponível na versão atual do plugin
+    // Retornar null por enquanto
+    return null;
   }
 
   /**
