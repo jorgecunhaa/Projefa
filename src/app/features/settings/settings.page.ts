@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SettingsService } from '../../core/services/settings.service';
 import { OrientationService } from '../../core/services/orientation.service';
 import { ToastController } from '@ionic/angular';
@@ -19,34 +20,9 @@ import { ToastController } from '@ionic/angular';
 })
 export class SettingsPage implements OnInit {
   /**
-   * Indica se as notificações estão ativadas
+   * Formulário reativo para configurações
    */
-  notificationsEnabled: boolean = true;
-
-  /**
-   * Hora do lembrete diário
-   */
-  notificationHour: number = 9;
-
-  /**
-   * Minuto do lembrete diário
-   */
-  notificationMinute: number = 0;
-
-  /**
-   * Minutos antes da data limite para notificar
-   */
-  notificationMinutesBefore: number = 60;
-
-  /**
-   * Indica se o modo escuro está ativado
-   */
-  darkModeEnabled: boolean = false;
-
-  /**
-   * Tipo de bloqueio de orientação
-   */
-  orientationLock: 'portrait' | 'landscape' | 'unlocked' = 'portrait';
+  settingsForm!: FormGroup;
 
   /**
    * Indica se o controlo de orientação está disponível
@@ -54,10 +30,27 @@ export class SettingsPage implements OnInit {
   orientationControlAvailable: boolean = false;
 
   constructor(
+    private formBuilder: FormBuilder,
     private settingsService: SettingsService,
     private orientationService: OrientationService,
     private toastController: ToastController
-  ) {}
+  ) {
+    this.initializeForm();
+  }
+
+  /**
+   * Inicializa o formulário
+   */
+  private initializeForm(): void {
+    this.settingsForm = this.formBuilder.group({
+      darkModeEnabled: [false],
+      notificationsEnabled: [true],
+      notificationHour: [9, [Validators.required, Validators.min(0), Validators.max(23)]],
+      notificationMinute: [0, [Validators.required, Validators.min(0), Validators.max(59)]],
+      notificationMinutesBefore: [60, [Validators.required, Validators.min(1), Validators.max(1440)]],
+      orientationLock: ['portrait']
+    });
+  }
 
   /**
    * Inicializa o componente
@@ -70,20 +63,28 @@ export class SettingsPage implements OnInit {
    * Carrega as configurações atuais
    */
   async loadSettings(): Promise<void> {
-    this.notificationsEnabled = await this.settingsService.areNotificationsEnabled();
-    this.darkModeEnabled = await this.settingsService.isDarkModeEnabled();
+    const notificationsEnabled = await this.settingsService.areNotificationsEnabled();
+    const darkModeEnabled = await this.settingsService.isDarkModeEnabled();
     
     const notificationTime = await this.settingsService.getNotificationTime();
-    this.notificationHour = notificationTime.hour;
-    this.notificationMinute = notificationTime.minute;
-    
-    this.notificationMinutesBefore = await this.settingsService.getNotificationMinutesBefore();
+    const notificationMinutesBefore = await this.settingsService.getNotificationMinutesBefore();
 
     // Verificar se o controlo de orientação está disponível
     this.orientationControlAvailable = this.orientationService.isServiceAvailable();
+    let orientationLock: 'portrait' | 'landscape' | 'unlocked' = 'portrait';
     if (this.orientationControlAvailable) {
-      this.orientationLock = await this.settingsService.getOrientationLock();
+      orientationLock = await this.settingsService.getOrientationLock();
     }
+
+    // Atualizar formulário com valores carregados
+    this.settingsForm.patchValue({
+      darkModeEnabled,
+      notificationsEnabled,
+      notificationHour: notificationTime.hour,
+      notificationMinute: notificationTime.minute,
+      notificationMinutesBefore,
+      orientationLock
+    });
   }
 
   /**
@@ -92,6 +93,7 @@ export class SettingsPage implements OnInit {
    */
   async toggleNotifications(event: any): Promise<void> {
     const enabled = event.detail.checked;
+    this.settingsForm.patchValue({ notificationsEnabled: enabled });
     await this.settingsService.setNotificationsEnabled(enabled);
     await this.showToast(
       enabled ? 'Notificações ativadas' : 'Notificações desativadas',
@@ -105,6 +107,7 @@ export class SettingsPage implements OnInit {
    */
   async toggleDarkMode(event: any): Promise<void> {
     const enabled = event.detail.checked;
+    this.settingsForm.patchValue({ darkModeEnabled: enabled });
     await this.settingsService.setDarkModeEnabled(enabled);
     await this.showToast(
       enabled ? 'Modo escuro ativado' : 'Modo claro ativado',
@@ -114,19 +117,32 @@ export class SettingsPage implements OnInit {
 
   /**
    * Atualiza a hora do lembrete diário
-   * @param event - Evento do input
    */
   async updateNotificationTime(): Promise<void> {
-    await this.settingsService.setNotificationTime(this.notificationHour, this.notificationMinute);
+    const hour = this.settingsForm.get('notificationHour')?.value;
+    const minute = this.settingsForm.get('notificationMinute')?.value;
+    
+    if (this.settingsForm.get('notificationHour')?.invalid || this.settingsForm.get('notificationMinute')?.invalid) {
+      await this.showToast('Valores inválidos para hora', 'danger');
+      return;
+    }
+
+    await this.settingsService.setNotificationTime(hour, minute);
     await this.showToast('Hora do lembrete atualizada', 'success');
   }
 
   /**
    * Atualiza os minutos antes da data limite
-   * @param event - Evento do input
    */
   async updateNotificationMinutesBefore(): Promise<void> {
-    await this.settingsService.setNotificationMinutesBefore(this.notificationMinutesBefore);
+    const minutes = this.settingsForm.get('notificationMinutesBefore')?.value;
+    
+    if (this.settingsForm.get('notificationMinutesBefore')?.invalid) {
+      await this.showToast('Valor inválido', 'danger');
+      return;
+    }
+
+    await this.settingsService.setNotificationMinutesBefore(minutes);
     await this.showToast('Tempo de notificação atualizado', 'success');
   }
 
@@ -136,6 +152,7 @@ export class SettingsPage implements OnInit {
    */
   async updateOrientationLock(event: any): Promise<void> {
     const lock = event.detail.value as 'portrait' | 'landscape' | 'unlocked';
+    this.settingsForm.patchValue({ orientationLock: lock });
     await this.settingsService.setOrientationLock(lock);
     await this.showToast(
       lock === 'unlocked' 
@@ -143,6 +160,33 @@ export class SettingsPage implements OnInit {
         : `Orientação bloqueada para ${lock === 'portrait' ? 'vertical' : 'horizontal'}`,
       'success'
     );
+  }
+
+  /**
+   * Getters para facilitar acesso aos valores do formulário
+   */
+  get darkModeEnabled(): boolean {
+    return this.settingsForm.get('darkModeEnabled')?.value || false;
+  }
+
+  get notificationsEnabled(): boolean {
+    return this.settingsForm.get('notificationsEnabled')?.value || false;
+  }
+
+  get notificationHour(): number {
+    return this.settingsForm.get('notificationHour')?.value || 9;
+  }
+
+  get notificationMinute(): number {
+    return this.settingsForm.get('notificationMinute')?.value || 0;
+  }
+
+  get notificationMinutesBefore(): number {
+    return this.settingsForm.get('notificationMinutesBefore')?.value || 60;
+  }
+
+  get orientationLock(): 'portrait' | 'landscape' | 'unlocked' {
+    return this.settingsForm.get('orientationLock')?.value || 'portrait';
   }
 
   /**

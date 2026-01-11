@@ -8,8 +8,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="fade-in">
-  <!-- Modo Escuro/Claro -->
-  <ion-card class="settings-card">
+  <form [formGroup]="settingsForm">
+    <!-- Modo Escuro/Claro -->
+    <ion-card class="settings-card">
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="color-palette-outline" slot="start"></ion-icon>
@@ -24,7 +25,7 @@
           <p>Ativa o tema escuro da aplicação</p>
         </ion-label>
         <ion-toggle
-          [(ngModel)]="darkModeEnabled"
+          [formControl]="settingsForm.get('darkModeEnabled')!"
           (ionChange)="toggleDarkMode($event)"
           color="primary">
         </ion-toggle>
@@ -40,7 +41,7 @@
       </ion-item>
       <ion-item lines="none" *ngIf="orientationControlAvailable">
         <ion-segment
-          [(ngModel)]="orientationLock"
+          [formControl]="settingsForm.get('orientationLock')!"
           (ionChange)="updateOrientationLock($event)"
           color="primary">
           <ion-segment-button value="portrait">
@@ -73,7 +74,7 @@
           <p>Recebe notificações sobre tarefas próximas</p>
         </ion-label>
         <ion-toggle
-          [(ngModel)]="notificationsEnabled"
+          [formControl]="settingsForm.get('notificationsEnabled')!"
           (ionChange)="toggleNotifications($event)"
           color="primary">
         </ion-toggle>
@@ -88,7 +89,7 @@
         <div class="time-inputs">
           <ion-input
             type="number"
-            [(ngModel)]="notificationHour"
+            [formControl]="settingsForm.get('notificationHour')!"
             (ionChange)="updateNotificationTime()"
             min="0"
             max="23"
@@ -98,7 +99,7 @@
           <span class="time-separator">:</span>
           <ion-input
             type="number"
-            [(ngModel)]="notificationMinute"
+            [formControl]="settingsForm.get('notificationMinute')!"
             (ionChange)="updateNotificationTime()"
             min="0"
             max="59"
@@ -116,7 +117,7 @@
         </ion-label>
         <ion-input
           type="number"
-          [(ngModel)]="notificationMinutesBefore"
+          [formControl]="settingsForm.get('notificationMinutesBefore')!"
           (ionChange)="updateNotificationMinutesBefore()"
           min="1"
           max="1440"
@@ -153,4 +154,5 @@
       </ion-item>
     </ion-card-content>
   </ion-card>
+  </form>
 </ion-content>
