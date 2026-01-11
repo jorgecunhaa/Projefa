@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./features/search/search.module').then(m => m.SearchModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./features/statistics/statistics.module').then(m => m.StatisticsModule)
   }
 ];
 @NgModule({

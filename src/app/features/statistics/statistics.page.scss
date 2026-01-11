@@ -1,0 +1,362 @@
+/**
+ * Statistics Page Styles
+ * 
+ * Estilos para a página de estatísticas.
+ */
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/** Garantir que o conteúdo não fica escondido */
+ion-content {
+  --offset-top: 0px !important;
+  padding-top: 0 !important;
+}
+
+.stats-segment {
+  margin: 16px;
+  border-radius: 12px;
+  background: var(--ion-color-light);
+  padding: 4px;
+
+  ion-segment-button {
+    --indicator-color: var(--ion-color-primary);
+    --color: var(--ion-color-medium);
+    --color-checked: var(--ion-color-primary);
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 16px;
+
+  p {
+    color: var(--ion-color-medium);
+    margin-top: 16px;
+  }
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px;
+}
+
+.stat-card {
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  ion-icon {
+    font-size: 2rem;
+  }
+
+  .stat-info {
+    flex: 1;
+
+    h3 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--ion-color-dark);
+    }
+
+    p {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.tasks-stats-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 24px;
+  padding: 16px 0;
+}
+
+.task-stat-item {
+  text-align: center;
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+
+    &.completed {
+      color: var(--ion-color-success);
+    }
+
+    &.pending {
+      color: var(--ion-color-warning);
+    }
+
+    &.overdue {
+      color: var(--ion-color-danger);
+    }
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.progress-section {
+  margin-top: 16px;
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--ion-color-dark);
+    font-weight: 600;
+
+    .progress-percentage {
+      color: var(--ion-color-primary);
+      font-weight: 700;
+    }
+  }
+
+  ion-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+  }
+
+  .progress-text {
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+    margin-top: 4px;
+    display: block;
+  }
+}
+
+.project-stat-item,
+.category-stat-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 100px;
+  margin: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin-bottom: 8px;
+  }
+
+  .stat-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: var(--ion-color-medium);
+    flex-wrap: wrap;
+
+    .separator {
+      color: var(--ion-color-light-shade);
+    }
+
+    .overdue-badge {
+      background: var(--ion-color-danger);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.category-stat-item {
+  ion-avatar {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+.timeline-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px 0;
+}
+
+.month-stat {
+  .month-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin-bottom: 12px;
+    text-transform: capitalize;
+  }
+
+  .month-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .bar-label {
+    min-width: 80px;
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+    text-align: right;
+  }
+
+  .bar {
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 12px;
+    min-width: 40px;
+    transition: width 0.3s ease;
+    position: relative;
+
+    span {
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 1;
+    }
+
+    &.created {
+      background: linear-gradient(90deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+    }
+
+    &.completed {
+      background: linear-gradient(90deg, var(--ion-color-success), var(--ion-color-success-shade));
+    }
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  height: 50vh;
+
+  .empty-icon {
+    font-size: 64px;
+    color: var(--ion-color-medium);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    color: var(--ion-color-dark);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+  }
+}
+
+.empty-state-small {
+  text-align: center;
+  padding: 32px;
+  color: var(--ion-color-medium);
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .task-stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .stats-segment {
+    margin: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    ion-segment-button {
+      min-width: auto;
+      padding: 0 12px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .bar-container {
+    .bar-label {
+      min-width: 60px;
+      font-size: 0.8rem;
+    }
+  }
+}

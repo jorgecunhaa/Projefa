@@ -1,0 +1,222 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="stats-chart-outline" class="header-icon"></ion-icon>
+      Estatísticas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <!-- Segmento de navegação -->
+  <ion-segment 
+    [(ngModel)]="selectedSegment"
+    (ionChange)="onSegmentChange($event.detail.value)"
+    class="stats-segment">
+    <ion-segment-button value="general">
+      <ion-label>Geral</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="projects">
+      <ion-label>Projetos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="categories">
+      <ion-label>Categorias</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="timeline">
+      <ion-label>Timeline</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A carregar estatísticas...</p>
+  </div>
+
+  <!-- Estatísticas Gerais -->
+  <div *ngIf="!isLoading && selectedSegment === 'general' && generalStats">
+    <!-- Cards de resumo -->
+    <div class="summary-cards">
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-item">
+            <ion-icon name="folder-outline" color="secondary"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ generalStats.totalCategories }}</h3>
+              <p>Categorias</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-item">
+            <ion-icon name="briefcase-outline" color="primary"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ generalStats.totalProjects }}</h3>
+              <p>Projetos</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="stat-card">
+        <ion-card-content>
+          <div class="stat-item">
+            <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+            <div class="stat-info">
+              <h3>{{ generalStats.totalTasks }}</h3>
+              <p>Tarefas</p>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Estatísticas de tarefas -->
+    <ion-card class="tasks-stats-card">
+      <ion-card-header>
+        <ion-card-title>Estatísticas de Tarefas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="task-stats">
+          <div class="task-stat-item">
+            <div class="stat-value completed">{{ generalStats.completedTasks }}</div>
+            <div class="stat-label">Concluídas</div>
+          </div>
+          <div class="task-stat-item">
+            <div class="stat-value pending">{{ generalStats.pendingTasks }}</div>
+            <div class="stat-label">Pendentes</div>
+          </div>
+          <div class="task-stat-item">
+            <div class="stat-value overdue">{{ generalStats.overdueTasks }}</div>
+            <div class="stat-label">Em Atraso</div>
+          </div>
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="progress-section">
+          <div class="progress-header">
+            <span>Taxa de Conclusão</span>
+            <span class="progress-percentage">{{ formatPercentage(generalStats.completionRate) }}</span>
+          </div>
+          <ion-progress-bar 
+            [value]="generalStats.completionRate / 100"
+            [color]="getProgressColor(generalStats.completionRate)">
+          </ion-progress-bar>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Estatísticas por Projeto -->
+  <div *ngIf="!isLoading && selectedSegment === 'projects'">
+    <div *ngIf="projectStats.length === 0" class="empty-state">
+      <ion-icon name="briefcase-outline" class="empty-icon"></ion-icon>
+      <h2>Nenhum projeto</h2>
+      <p>Cria projetos para ver estatísticas</p>
+    </div>
+
+    <ion-list *ngIf="projectStats.length > 0">
+      <ion-item
+        *ngFor="let stat of projectStats"
+        (click)="navigateToProject(stat.projectId)"
+        button
+        class="project-stat-item">
+        <ion-label>
+          <h2>{{ stat.projectName }}</h2>
+          <div class="stat-details">
+            <span>{{ stat.totalTasks }} tarefas</span>
+            <span class="separator">•</span>
+            <span>{{ stat.completedTasks }} concluídas</span>
+            <span *ngIf="stat.overdueTasks > 0" class="overdue-badge">
+              {{ stat.overdueTasks }} em atraso
+            </span>
+          </div>
+          <div class="progress-section">
+            <ion-progress-bar 
+              [value]="stat.completionRate / 100"
+              [color]="getProgressColor(stat.completionRate)">
+            </ion-progress-bar>
+            <span class="progress-text">{{ formatPercentage(stat.completionRate) }}</span>
+          </div>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Estatísticas por Categoria -->
+  <div *ngIf="!isLoading && selectedSegment === 'categories'">
+    <div *ngIf="categoryStats.length === 0" class="empty-state">
+      <ion-icon name="folder-outline" class="empty-icon"></ion-icon>
+      <h2>Nenhuma categoria</h2>
+      <p>Cria categorias para ver estatísticas</p>
+    </div>
+
+    <ion-list *ngIf="categoryStats.length > 0">
+      <ion-item
+        *ngFor="let stat of categoryStats"
+        (click)="navigateToCategoryProjects(stat.categoryId)"
+        button
+        class="category-stat-item">
+        <ion-avatar slot="start" [style.background-color]="stat.categoryColor + '20'">
+          <ion-icon name="folder" [style.color]="stat.categoryColor"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ stat.categoryName }}</h2>
+          <div class="stat-details">
+            <span>{{ stat.totalProjects }} projetos</span>
+            <span class="separator">•</span>
+            <span>{{ stat.totalTasks }} tarefas</span>
+            <span class="separator">•</span>
+            <span>{{ stat.completedTasks }} concluídas</span>
+          </div>
+          <div class="progress-section">
+            <ion-progress-bar 
+              [value]="stat.completionRate / 100"
+              [color]="getProgressColor(stat.completionRate)">
+            </ion-progress-bar>
+            <span class="progress-text">{{ formatPercentage(stat.completionRate) }}</span>
+          </div>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Timeline (Estatísticas Mensais) -->
+  <div *ngIf="!isLoading && selectedSegment === 'timeline'">
+    <ion-card class="timeline-card">
+      <ion-card-header>
+        <ion-card-title>Atividade dos Últimos 6 Meses</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="monthlyStats.length === 0" class="empty-state-small">
+          <p>Nenhuma atividade registada</p>
+        </div>
+
+        <div *ngIf="monthlyStats.length > 0" class="timeline-stats">
+          <div *ngFor="let month of monthlyStats" class="month-stat">
+            <div class="month-name">{{ month.month }}</div>
+            <div class="month-bars">
+              <div class="bar-container">
+                <div class="bar-label">Criadas</div>
+                <div class="bar created" [style.width.%]="(month.created / getMaxCreated()) * 100">
+                  <span>{{ month.created }}</span>
+                </div>
+              </div>
+              <div class="bar-container">
+                <div class="bar-label">Concluídas</div>
+                <div class="bar completed" [style.width.%]="(month.completed / getMaxCompleted()) * 100">
+                  <span>{{ month.completed }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
