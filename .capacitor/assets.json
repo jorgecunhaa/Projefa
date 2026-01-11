@@ -1,0 +1,24 @@
+{
+  "iconBackgroundColor": "#8B0000",
+  "iconBackgroundColorDark": "#8B0000",
+  "splashBackgroundColor": "#8B0000",
+  "splashBackgroundColorDark": "#8B0000",
+  "icon": "resources/icon.svg",
+  "splash": "resources/splash.svg",
+  "platforms": {
+    "android": {
+      "icon": "resources/icon.svg",
+      "splash": {
+        "portrait": "resources/splash.svg",
+        "landscape": "resources/splash.svg"
+      }
+    },
+    "ios": {
+      "icon": "resources/icon.svg",
+      "splash": {
+        "portrait": "resources/splash.svg",
+        "landscape": "resources/splash.svg"
+      }
+    }
+  }
+}

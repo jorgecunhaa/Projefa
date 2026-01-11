@@ -1,0 +1,30 @@
+<svg width="2048" height="2048" viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Bordô -->
+  <rect width="2048" height="2048" fill="#8B0000"/>
+  
+  <!-- Logo centralizado -->
+  <g transform="translate(1024, 1024)">
+    <!-- Círculo de fundo -->
+    <circle cx="0" cy="0" r="300" fill="#FFFFFF" opacity="0.1"/>
+    
+    <!-- Ícone de Projeto/Tarefa -->
+    <!-- Linha 1 -->
+    <rect x="-300" y="-200" width="600" height="32" rx="16" fill="#FFFFFF" opacity="0.9"/>
+    <circle cx="-250" cy="-184" r="80" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+    
+    <!-- Linha 2 -->
+    <rect x="-300" y="-80" width="600" height="32" rx="16" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="-250" cy="-64" r="80" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+    
+    <!-- Linha 3 -->
+    <rect x="-300" y="40" width="600" height="32" rx="16" fill="#FFFFFF" opacity="0.5"/>
+    <circle cx="-250" cy="56" r="80" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+    
+    <!-- Checkmark na primeira linha -->
+    <path d="M -270 -204 L -250 -184 L -230 -204" stroke="#FFFFFF" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M -250 -184 L -230 -164" stroke="#FFFFFF" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Texto "Projefa" -->
+    <text x="0" y="350" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#FFFFFF" text-anchor="middle" opacity="0.9">Projefa</text>
+  </g>
+</svg>
