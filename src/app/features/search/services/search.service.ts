@@ -67,15 +67,11 @@ export class SearchService {
     const projects = await this.projectService.getAllProjects();
     projects.forEach(project => {
       const nameRelevance = this.calculateRelevance(project.name, searchTerm);
-      const descriptionRelevance = project.description 
-        ? this.calculateRelevance(project.description, searchTerm) 
-        : 0;
       
-      const maxRelevance = Math.max(nameRelevance, descriptionRelevance);
+      const maxRelevance = nameRelevance;
       if (maxRelevance > 0) {
         const matchedFields: string[] = [];
         if (nameRelevance > 0) matchedFields.push('name');
-        if (descriptionRelevance > 0) matchedFields.push('description');
         
         results.push({
           type: 'project',
@@ -147,8 +143,7 @@ export class SearchService {
     const projects = await this.projectService.getAllProjects();
     
     return projects.filter(project => 
-      project.name.toLowerCase().includes(searchTerm) ||
-      (project.description && project.description.toLowerCase().includes(searchTerm))
+      project.name.toLowerCase().includes(searchTerm)
     );
   }
 

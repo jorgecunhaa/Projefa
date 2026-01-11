@@ -254,7 +254,7 @@ export class SearchPage implements OnInit, OnDestroy {
       case 'category':
         return '';
       case 'project':
-        return (result.item as any).description || '';
+        return ''; // Projetos não têm descrição no modelo
       case 'task':
         return (result.item as any).description || '';
       default:
