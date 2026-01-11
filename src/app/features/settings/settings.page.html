@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="settings-outline" class="header-icon"></ion-icon>
+      Configurações
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <!-- Modo Escuro/Claro -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="color-palette-outline" slot="start"></ion-icon>
+        Aparência
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="moon-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Modo Escuro</h2>
+          <p>Ativa o tema escuro da aplicação</p>
+        </ion-label>
+        <ion-toggle
+          [(ngModel)]="darkModeEnabled"
+          (ionChange)="toggleDarkMode($event)"
+          color="primary">
+        </ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Notificações -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="notifications-outline" slot="start"></ion-icon>
+        Notificações
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="notifications" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Ativar Notificações</h2>
+          <p>Recebe notificações sobre tarefas próximas</p>
+        </ion-label>
+        <ion-toggle
+          [(ngModel)]="notificationsEnabled"
+          (ionChange)="toggleNotifications($event)"
+          color="primary">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="notificationsEnabled">
+        <ion-icon name="time-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Lembrete Diário</h2>
+          <p>Hora para receber lembrete diário</p>
+        </ion-label>
+        <div class="time-inputs">
+          <ion-input
+            type="number"
+            [(ngModel)]="notificationHour"
+            (ionChange)="updateNotificationTime()"
+            min="0"
+            max="23"
+            placeholder="9"
+            class="time-input">
+          </ion-input>
+          <span class="time-separator">:</span>
+          <ion-input
+            type="number"
+            [(ngModel)]="notificationMinute"
+            (ionChange)="updateNotificationTime()"
+            min="0"
+            max="59"
+            placeholder="0"
+            class="time-input">
+          </ion-input>
+        </div>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="notificationsEnabled">
+        <ion-icon name="alarm-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Notificar Antes</h2>
+          <p>Minutos antes da data limite</p>
+        </ion-label>
+        <ion-input
+          type="number"
+          [(ngModel)]="notificationMinutesBefore"
+          (ionChange)="updateNotificationMinutesBefore()"
+          min="1"
+          max="1440"
+          placeholder="60"
+          class="number-input">
+        </ion-input>
+        <span slot="end" class="input-suffix">min</span>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Informações da Aplicação -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+        Sobre
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="cube-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Projefa</h2>
+          <p>Gestão de Projetos e Tarefas</p>
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="code-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+          <h2>Versão</h2>
+          <p>1.0.0</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

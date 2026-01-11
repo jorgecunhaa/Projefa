@@ -117,7 +117,11 @@ export class SettingsService {
    * @param enabled - Estado do modo escuro
    */
   private applyDarkMode(enabled: boolean): void {
-    document.body.classList.toggle('dark', enabled);
+    if (enabled) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }
 
   /**

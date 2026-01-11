@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'statistics',
     loadChildren: () => import('./features/statistics/statistics.module').then(m => m.StatisticsModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule)
   }
 ];
 @NgModule({

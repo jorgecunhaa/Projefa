@@ -1,0 +1,116 @@
+/**
+ * Settings Page Styles
+ * 
+ * Estilos para a página de configurações.
+ */
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/** Garantir que o conteúdo não fica escondido */
+ion-content {
+  --offset-top: 0px !important;
+  padding-top: 0 !important;
+}
+
+.settings-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  ion-card-header {
+    padding-bottom: 8px;
+
+    ion-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+
+      ion-icon {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 64px;
+    margin: 8px 0;
+
+    ion-icon[slot="start"] {
+      font-size: 1.5rem;
+      margin-right: 12px;
+    }
+
+    h2 {
+      margin: 0 0 4px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.time-input {
+  width: 50px;
+  text-align: center;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.time-separator {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0 4px;
+}
+
+.number-input {
+  width: 80px;
+  text-align: center;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.input-suffix {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin-left: 8px;
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .settings-card {
+    margin: 8px;
+  }
+
+  .time-input {
+    width: 45px;
+  }
+
+  .number-input {
+    width: 70px;
+  }
+}
