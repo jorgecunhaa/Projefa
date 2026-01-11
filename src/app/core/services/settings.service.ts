@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { NotificationService } from './notification.service';
+import { OrientationService } from './orientation.service';
 
 /**
  * Settings Service
@@ -18,10 +19,12 @@ export class SettingsService {
   private readonly NOTIFICATION_TIME_KEY = 'notificationTime';
   private readonly NOTIFICATION_MINUTES_BEFORE_KEY = 'notificationMinutesBefore';
   private readonly DARK_MODE_KEY = 'darkMode';
+  private readonly ORIENTATION_LOCK_KEY = 'orientationLock';
 
   constructor(
     private storageService: StorageService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private orientationService: OrientationService
   ) {}
 
   /**
@@ -125,11 +128,55 @@ export class SettingsService {
   }
 
   /**
+   * Obtém o tipo de bloqueio de orientação
+   * @returns Promise com 'portrait', 'landscape' ou 'unlocked'
+   */
+  async getOrientationLock(): Promise<'portrait' | 'landscape' | 'unlocked'> {
+    const value = await this.storageService.getSetting<string>(this.ORIENTATION_LOCK_KEY, 'portrait');
+    return (value as 'portrait' | 'landscape' | 'unlocked') || 'portrait';
+  }
+
+  /**
+   * Define o tipo de bloqueio de orientação
+   * @param lock - Tipo de bloqueio: 'portrait', 'landscape' ou 'unlocked'
+   */
+  async setOrientationLock(lock: 'portrait' | 'landscape' | 'unlocked'): Promise<void> {
+    await this.storageService.setSetting(this.ORIENTATION_LOCK_KEY, lock);
+    await this.applyOrientationLock(lock);
+  }
+
+  /**
+   * Aplica o bloqueio de orientação
+   * @param lock - Tipo de bloqueio
+   */
+  private async applyOrientationLock(lock: 'portrait' | 'landscape' | 'unlocked'): Promise<void> {
+    if (!this.orientationService.isServiceAvailable()) {
+      return;
+    }
+
+    switch (lock) {
+      case 'portrait':
+        await this.orientationService.lockToPortrait();
+        break;
+      case 'landscape':
+        await this.orientationService.lockToLandscape();
+        break;
+      case 'unlocked':
+        await this.orientationService.unlock();
+        break;
+    }
+  }
+
+  /**
    * Inicializa as configurações
    */
   async initializeSettings(): Promise<void> {
     // Aplicar modo escuro se estiver ativado
     const darkMode = await this.isDarkModeEnabled();
     this.applyDarkMode(darkMode);
+
+    // Aplicar bloqueio de orientação se configurado
+    const orientationLock = await this.getOrientationLock();
+    await this.applyOrientationLock(orientationLock);
   }
 }

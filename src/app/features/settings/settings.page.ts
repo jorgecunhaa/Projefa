@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../core/services/settings.service';
+import { OrientationService } from '../../core/services/orientation.service';
 import { ToastController } from '@ionic/angular';
 
 /**
@@ -42,8 +43,19 @@ export class SettingsPage implements OnInit {
    */
   darkModeEnabled: boolean = false;
 
+  /**
+   * Tipo de bloqueio de orientação
+   */
+  orientationLock: 'portrait' | 'landscape' | 'unlocked' = 'portrait';
+
+  /**
+   * Indica se o controlo de orientação está disponível
+   */
+  orientationControlAvailable: boolean = false;
+
   constructor(
     private settingsService: SettingsService,
+    private orientationService: OrientationService,
     private toastController: ToastController
   ) {}
 
@@ -66,6 +78,12 @@ export class SettingsPage implements OnInit {
     this.notificationMinute = notificationTime.minute;
     
     this.notificationMinutesBefore = await this.settingsService.getNotificationMinutesBefore();
+
+    // Verificar se o controlo de orientação está disponível
+    this.orientationControlAvailable = this.orientationService.isServiceAvailable();
+    if (this.orientationControlAvailable) {
+      this.orientationLock = await this.settingsService.getOrientationLock();
+    }
   }
 
   /**
@@ -110,6 +128,21 @@ export class SettingsPage implements OnInit {
   async updateNotificationMinutesBefore(): Promise<void> {
     await this.settingsService.setNotificationMinutesBefore(this.notificationMinutesBefore);
     await this.showToast('Tempo de notificação atualizado', 'success');
+  }
+
+  /**
+   * Atualiza o bloqueio de orientação
+   * @param event - Evento do segment
+   */
+  async updateOrientationLock(event: any): Promise<void> {
+    const lock = event.detail.value as 'portrait' | 'landscape' | 'unlocked';
+    await this.settingsService.setOrientationLock(lock);
+    await this.showToast(
+      lock === 'unlocked' 
+        ? 'Orientação desbloqueada' 
+        : `Orientação bloqueada para ${lock === 'portrait' ? 'vertical' : 'horizontal'}`,
+      'success'
+    );
   }
 
   /**
