@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="download-outline" class="header-icon"></ion-icon>
+      Exportar Dados
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <!-- Informação -->
+  <ion-card class="info-card">
+    <ion-card-content>
+      <div class="info-content">
+        <ion-icon name="information-circle-outline" color="primary"></ion-icon>
+        <div>
+          <h3>Exportar Dados</h3>
+          <p>Exporta os teus dados em formato JSON ou CSV para guardar ou partilhar.</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seleção de Formato -->
+  <ion-card class="format-card">
+    <ion-card-header>
+      <ion-card-title>Formato</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-segment 
+        [(ngModel)]="selectedFormat"
+        class="format-segment">
+        <ion-segment-button value="json">
+          <ion-label>JSON</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="csv">
+          <ion-label>CSV</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      <div class="format-description">
+        <p *ngIf="selectedFormat === 'json'">
+          <ion-icon name="code-outline"></ion-icon>
+          Formato JSON - Ideal para backup e importação futura
+        </p>
+        <p *ngIf="selectedFormat === 'csv'">
+          <ion-icon name="table-outline"></ion-icon>
+          Formato CSV - Ideal para análise em Excel ou Google Sheets
+        </p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Seleção de Tipo de Dados -->
+  <ion-card class="type-card">
+    <ion-card-header>
+      <ion-card-title>Dados a Exportar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-radio-group [(ngModel)]="selectedType">
+        <ion-item lines="none" class="radio-item">
+          <ion-icon name="apps-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <h2>Todos os Dados</h2>
+            <p>Categorias, projetos e tarefas</p>
+          </ion-label>
+          <ion-radio slot="end" value="all"></ion-radio>
+        </ion-item>
+
+        <ion-item lines="none" class="radio-item">
+          <ion-icon name="folder-outline" slot="start" color="secondary"></ion-icon>
+          <ion-label>
+            <h2>Apenas Categorias</h2>
+            <p>Exporta todas as categorias</p>
+          </ion-label>
+          <ion-radio slot="end" value="categories"></ion-radio>
+        </ion-item>
+
+        <ion-item lines="none" class="radio-item">
+          <ion-icon name="briefcase-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <h2>Apenas Projetos</h2>
+            <p>Exporta todos os projetos</p>
+          </ion-label>
+          <ion-radio slot="end" value="projects"></ion-radio>
+        </ion-item>
+
+        <ion-item lines="none" class="radio-item">
+          <ion-icon name="checkmark-circle-outline" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h2>Apenas Tarefas</h2>
+            <p>Exporta todas as tarefas</p>
+          </ion-label>
+          <ion-radio slot="end" value="tasks"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botão de Exportação -->
+  <div class="export-button-container">
+    <ion-button
+      expand="block"
+      (click)="exportData()"
+      color="primary"
+      size="large"
+      class="export-button">
+      <ion-icon slot="start" name="download-outline"></ion-icon>
+      Exportar Dados
+    </ion-button>
+  </div>
+</ion-content>
