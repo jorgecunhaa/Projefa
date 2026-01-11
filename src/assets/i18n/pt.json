@@ -1,0 +1,190 @@
+{
+  "app": {
+    "name": "Projefa",
+    "title": "Gestão de Projetos e Tarefas"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Criar",
+    "update": "Atualizar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "loading": "A carregar...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "confirm": "Confirmar",
+    "yes": "Sim",
+    "no": "Não",
+    "all": "Todos",
+    "none": "Nenhum",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "refresh": "Atualizar",
+    "actions": "Ações"
+  },
+  "categories": {
+    "title": "Categorias",
+    "create": "Criar Categoria",
+    "edit": "Editar Categoria",
+    "delete": "Eliminar Categoria",
+    "name": "Nome",
+    "color": "Cor",
+    "icon": "Ícone",
+    "empty": "Nenhuma categoria",
+    "emptyMessage": "Cria a tua primeira categoria para começar a organizar os teus projetos!",
+    "createdAt": "Criada em",
+    "deleteConfirm": "Tens a certeza que queres eliminar a categoria \"{{name}}\"?",
+    "deleteWarning": "Esta categoria tem projetos associados. Todos os projetos serão eliminados. Continuar?",
+    "saved": "Categoria guardada com sucesso!",
+    "deleted": "Categoria eliminada com sucesso!",
+    "error": "Erro ao processar categoria"
+  },
+  "projects": {
+    "title": "Projetos",
+    "create": "Criar Projeto",
+    "edit": "Editar Projeto",
+    "delete": "Eliminar Projeto",
+    "name": "Nome",
+    "category": "Categoria",
+    "empty": "Nenhum projeto",
+    "emptyMessage": "Cria o teu primeiro projeto para começar a organizar as tuas tarefas!",
+    "deleteConfirm": "Tens a certeza que queres eliminar o projeto \"{{name}}\"?",
+    "deleteWarning": "Este projeto tem tarefas associadas. Todas as tarefas serão eliminadas. Continuar?",
+    "saved": "Projeto guardado com sucesso!",
+    "deleted": "Projeto eliminado com sucesso!",
+    "error": "Erro ao processar projeto",
+    "statistics": {
+      "total": "Total",
+      "completed": "Concluídas",
+      "overdue": "Em Atraso",
+      "progress": "Progresso"
+    }
+  },
+  "tasks": {
+    "title": "Tarefas",
+    "create": "Criar Tarefa",
+    "edit": "Editar Tarefa",
+    "delete": "Eliminar Tarefa",
+    "titleField": "Título",
+    "description": "Descrição",
+    "dueDate": "Data Limite",
+    "project": "Projeto",
+    "image": "Imagem",
+    "completed": "Concluída",
+    "pending": "Pendente",
+    "overdue": "Em Atraso",
+    "empty": "Nenhuma tarefa",
+    "emptyMessage": "Cria a tua primeira tarefa para começar a organizar o teu trabalho!",
+    "deleteConfirm": "Tens a certeza que queres eliminar a tarefa \"{{title}}\"?",
+    "saved": "Tarefa guardada com sucesso!",
+    "deleted": "Tarefa eliminada com sucesso!",
+    "completedStatus": "Tarefa marcada como concluída",
+    "pendingStatus": "Tarefa marcada como pendente",
+    "error": "Erro ao processar tarefa",
+    "overdueAlert": {
+      "single": "{{count}} tarefa em atraso",
+      "multiple": "{{count}} tarefas em atraso",
+      "message": "Revisa as tuas tarefas urgentes!"
+    }
+  },
+  "calendar": {
+    "title": "Calendário",
+    "today": "Hoje",
+    "empty": "Nenhuma tarefa para este dia",
+    "createTask": "Criar Tarefa"
+  },
+  "search": {
+    "title": "Pesquisa",
+    "placeholder": "Pesquisar categorias, projetos, tarefas...",
+    "empty": "Nenhum resultado",
+    "emptyMessage": "Não foram encontrados resultados para \"{{query}}\"",
+    "hint": "Tenta usar outros termos de pesquisa",
+    "results": {
+      "single": "{{count}} resultado encontrado",
+      "multiple": "{{count}} resultados encontrados"
+    },
+    "types": {
+      "all": "Todos",
+      "category": "Categorias",
+      "project": "Projetos",
+      "task": "Tarefas"
+    }
+  },
+  "statistics": {
+    "title": "Estatísticas",
+    "general": "Geral",
+    "projects": "Projetos",
+    "categories": "Categorias",
+    "timeline": "Timeline",
+    "completionRate": "Taxa de Conclusão",
+    "tasksByStatus": "Estatísticas de Tarefas",
+    "activity": "Atividade dos Últimos 6 Meses"
+  },
+  "settings": {
+    "title": "Configurações",
+    "appearance": "Aparência",
+    "darkMode": "Modo Escuro",
+    "darkModeDescription": "Ativa o tema escuro da aplicação",
+    "notifications": "Notificações",
+    "enableNotifications": "Ativar Notificações",
+    "enableNotificationsDescription": "Recebe notificações sobre tarefas próximas",
+    "dailyReminder": "Lembrete Diário",
+    "dailyReminderDescription": "Hora para receber lembrete diário",
+    "notificationBefore": "Notificar Antes",
+    "notificationBeforeDescription": "Minutos antes da data limite",
+    "about": "Sobre",
+    "version": "Versão",
+    "appDescription": "Gestão de Projetos e Tarefas"
+  },
+  "export": {
+    "title": "Exportar Dados",
+    "description": "Exporta os teus dados em formato JSON ou CSV para guardar ou partilhar.",
+    "format": "Formato",
+    "jsonDescription": "Formato JSON - Ideal para backup e importação futura",
+    "csvDescription": "Formato CSV - Ideal para análise em Excel ou Google Sheets",
+    "dataType": "Dados a Exportar",
+    "all": "Todos os Dados",
+    "allDescription": "Categorias, projetos e tarefas",
+    "categoriesOnly": "Apenas Categorias",
+    "categoriesOnlyDescription": "Exporta todas as categorias",
+    "projectsOnly": "Apenas Projetos",
+    "projectsOnlyDescription": "Exporta todos os projetos",
+    "tasksOnly": "Apenas Tarefas",
+    "tasksOnlyDescription": "Exporta todas as tarefas",
+    "exportButton": "Exportar Dados",
+    "exported": "Dados exportados com sucesso!",
+    "error": "Erro ao exportar dados"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "minLength": "Mínimo de {{min}} caracteres",
+    "maxLength": "Máximo de {{max}} caracteres",
+    "invalid": "Valor inválido"
+  },
+  "months": {
+    "january": "Janeiro",
+    "february": "Fevereiro",
+    "march": "Março",
+    "april": "Abril",
+    "may": "Maio",
+    "june": "Junho",
+    "july": "Julho",
+    "august": "Agosto",
+    "september": "Setembro",
+    "october": "Outubro",
+    "november": "Novembro",
+    "december": "Dezembro"
+  },
+  "days": {
+    "sunday": "Dom",
+    "monday": "Seg",
+    "tuesday": "Ter",
+    "wednesday": "Qua",
+    "thursday": "Qui",
+    "friday": "Sex",
+    "saturday": "Sáb"
+  }
+}

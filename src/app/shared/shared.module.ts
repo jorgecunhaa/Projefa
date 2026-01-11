@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Pipes
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 // Components
 import { TaskCardComponent } from './components/task-card/task-card.component';
@@ -32,6 +33,7 @@ import { QuoteCardComponent } from './components/quote-card/quote-card.component
   declarations: [
     // Pipes
     DateFormatPipe,
+    TranslatePipe,
     
     // Components
     TaskCardComponent,
@@ -53,6 +55,7 @@ import { QuoteCardComponent } from './components/quote-card/quote-card.component
     
     // Pipes
     DateFormatPipe,
+    TranslatePipe,
     
     // Components
     TaskCardComponent,
