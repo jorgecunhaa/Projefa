@@ -1,0 +1,37 @@
+/**
+ * Tab1 Page (Home) Styles
+ * 
+ * Estilos para a página inicial.
+ */
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/** Garantir que o conteúdo não fica escondido */
+ion-content {
+  --offset-top: 0px !important;
+  padding-top: 0 !important;
+}
+
+.quick-links-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quick-link-button {
+  --border-radius: 12px;
+  margin: 8px 0;
+  height: 56px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .quick-links-card {
+    margin: 8px;
+  }
+}

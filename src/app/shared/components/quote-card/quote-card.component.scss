@@ -1,0 +1,84 @@
+/**
+ * Quote Card Component Styles
+ * 
+ * Estilos para o componente de citação.
+ */
+
+.quote-card {
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(139, 0, 0, 0.1) 100%);
+  border-left: 4px solid var(--ion-color-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.2);
+  }
+}
+
+.quote-content {
+  position: relative;
+  padding: 8px 0;
+}
+
+.quote-icon {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  font-size: 3rem;
+  color: var(--ion-color-primary);
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.quote-text {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--ion-color-dark);
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+  padding-left: 24px;
+  font-weight: 500;
+}
+
+.quote-skeleton {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.quote-author {
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--ion-color-primary);
+  font-weight: 600;
+  margin-top: 8px;
+  padding-right: 8px;
+}
+
+.quote-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .quote-card {
+    margin: 8px;
+  }
+
+  .quote-text {
+    font-size: 1rem;
+    padding-left: 20px;
+  }
+
+  .quote-icon {
+    font-size: 2.5rem;
+  }
+}

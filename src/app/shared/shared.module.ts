@@ -10,6 +10,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
 import { TaskCardComponent } from './components/task-card/task-card.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { CategoryBadgeComponent } from './components/category-badge/category-badge.component';
+import { QuoteCardComponent } from './components/quote-card/quote-card.component';
 
 /**
  * Shared Module
@@ -35,7 +36,8 @@ import { CategoryBadgeComponent } from './components/category-badge/category-bad
     // Components
     TaskCardComponent,
     ProjectCardComponent,
-    CategoryBadgeComponent
+    CategoryBadgeComponent,
+    QuoteCardComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +57,8 @@ import { CategoryBadgeComponent } from './components/category-badge/category-bad
     // Components
     TaskCardComponent,
     ProjectCardComponent,
-    CategoryBadgeComponent
+    CategoryBadgeComponent,
+    QuoteCardComponent
   ]
 })
 export class SharedModule { }
