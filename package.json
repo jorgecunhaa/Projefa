@@ -1,8 +1,17 @@
 {
   "name": "Projefa",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "1.0.0",
+  "description": "Aplicação móvel para Gestão de Projetos e Tarefas desenvolvida com Ionic + Angular",
+  "author": "Trabalho Prático - Programação Móvel e Ubíqua",
+  "homepage": "https://github.com",
+  "keywords": [
+    "ionic",
+    "angular",
+    "mobile",
+    "task-management",
+    "capacitor",
+    "sqlite"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
