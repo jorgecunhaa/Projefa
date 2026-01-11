@@ -15,10 +15,15 @@ ion-content {
   padding-top: 0 !important;
 }
 
-.category-filter {
-  margin: 16px;
-  border-radius: 12px;
+.filters-container {
+  padding: 8px 16px;
   background: var(--ion-color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.category-filter {
+  border-radius: 12px;
+  background: white;
   padding: 4px;
 
   ion-segment-button {
@@ -27,6 +32,7 @@ ion-content {
     --color-checked: var(--ion-color-primary);
     min-height: 40px;
     border-radius: 8px;
+    font-size: 0.85rem;
   }
 }
 
@@ -90,6 +96,10 @@ ion-content {
 
 /** Responsividade */
 @media (max-width: 768px) {
+  .filters-container {
+    padding: 4px 8px;
+  }
+
   .projects-grid {
     grid-template-columns: 1fr;
     padding: 8px;
@@ -97,13 +107,13 @@ ion-content {
   }
 
   .category-filter {
-    margin: 8px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 
     ion-segment-button {
       min-width: auto;
       padding: 0 12px;
+      font-size: 0.8rem;
     }
   }
 

@@ -120,10 +120,22 @@ export class SettingsService {
    * @param enabled - Estado do modo escuro
    */
   private applyDarkMode(enabled: boolean): void {
-    if (enabled) {
-      document.body.classList.add('dark');
+    const ionApp = document.querySelector('ion-app');
+    if (ionApp) {
+      if (enabled) {
+        ionApp.classList.add('dark');
+        document.body.classList.add('dark');
+      } else {
+        ionApp.classList.remove('dark');
+        document.body.classList.remove('dark');
+      }
     } else {
-      document.body.classList.remove('dark');
+      // Fallback para body se ion-app não existir ainda
+      if (enabled) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
     }
   }
 

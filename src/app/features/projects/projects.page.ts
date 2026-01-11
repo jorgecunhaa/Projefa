@@ -45,6 +45,11 @@ export class ProjectsPage implements OnInit, OnDestroy {
   isLoading: boolean = false;
 
   /**
+   * Cache de estatísticas dos projetos (projectId -> stats)
+   */
+  private projectStatsCache: Map<string, { total: number; completed: number; overdue: number }> = new Map();
+
+  /**
    * Subscription para o observable de projetos
    */
   private projectsSubscription?: Subscription;
@@ -129,6 +134,27 @@ export class ProjectsPage implements OnInit, OnDestroy {
       this.projects = await this.projectService.getProjectsByCategoryWithInfo(this.selectedCategoryId);
     } else {
       this.projects = await this.projectService.getAllProjectsWithCategory();
+    }
+    // Atualizar cache de estatísticas
+    await this.updateProjectStatsCache();
+  }
+
+  /**
+   * Atualiza o cache de estatísticas dos projetos
+   */
+  private async updateProjectStatsCache(): Promise<void> {
+    for (const project of this.projects) {
+      try {
+        const stats = await this.projectService.getProjectStatistics(project.id);
+        this.projectStatsCache.set(project.id, {
+          total: stats.total,
+          completed: stats.completed,
+          overdue: stats.overdue
+        });
+      } catch (error) {
+        console.error(`Erro ao obter estatísticas do projeto ${project.id}:`, error);
+        this.projectStatsCache.set(project.id, { total: 0, completed: 0, overdue: 0 });
+      }
     }
   }
 
@@ -290,5 +316,35 @@ export class ProjectsPage implements OnInit, OnDestroy {
   async doRefresh(event: any): Promise<void> {
     await this.loadData();
     event.target.complete();
+  }
+
+  /**
+   * Obtém o número de tarefas de um projeto
+   * @param projectId - ID do projeto
+   * @returns Número de tarefas
+   */
+  getProjectTaskCount(projectId: string): number {
+    const stats = this.projectStatsCache.get(projectId);
+    return stats ? stats.total : 0;
+  }
+
+  /**
+   * Obtém o número de tarefas concluídas de um projeto
+   * @param projectId - ID do projeto
+   * @returns Número de tarefas concluídas
+   */
+  getProjectCompletedCount(projectId: string): number {
+    const stats = this.projectStatsCache.get(projectId);
+    return stats ? stats.completed : 0;
+  }
+
+  /**
+   * Obtém o número de tarefas em atraso de um projeto
+   * @param projectId - ID do projeto
+   * @returns Número de tarefas em atraso
+   */
+  getProjectOverdueCount(projectId: string): number {
+    const stats = this.projectStatsCache.get(projectId);
+    return stats ? stats.overdue : 0;
   }
 }

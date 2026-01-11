@@ -134,6 +134,17 @@ ion-toolbar {
   --min-height: 56px;
 }
 
+/** Botões no toolbar - garantir que são visíveis */
+ion-toolbar ion-button[fill="clear"] {
+  --color: var(--ion-color-primary-contrast) !important;
+  color: var(--ion-color-primary-contrast) !important;
+}
+
+ion-toolbar ion-button {
+  --color: var(--ion-color-primary-contrast) !important;
+  color: var(--ion-color-primary-contrast) !important;
+}
+
 /** Estilos para FAB */
 ion-fab-button {
   --box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
@@ -263,5 +274,97 @@ ion-avatar {
 
   .task-overdue {
     --background: rgba(235, 68, 90, 0.2);
+  }
+
+  // Garantir que textos são visíveis no modo escuro
+  ion-card-title,
+  ion-card-subtitle {
+    --color: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  ion-label {
+    h1, h2, h3, h4, h5, h6 {
+      --color: #ffffff !important;
+      color: #ffffff !important;
+    }
+    
+    p {
+      --color: rgba(255, 255, 255, 0.7) !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+  }
+
+  // Inputs e searchbar
+  ion-input,
+  ion-textarea,
+  ion-searchbar {
+    --color: #ffffff !important;
+    --placeholder-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+  }
+
+  // Segment buttons
+  ion-segment-button {
+    --color: rgba(255, 255, 255, 0.7) !important;
+    --color-checked: #ffffff !important;
+  }
+
+  // Toolbar buttons
+  ion-button[fill="clear"] {
+    --color: #ffffff !important;
+    color: #ffffff !important;
+  }
+}
+
+/** Estilos para modo escuro (classe .dark) */
+.dark {
+  ion-card {
+    --background: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .task-overdue {
+    --background: rgba(235, 68, 90, 0.2);
+  }
+
+  // Garantir que textos são visíveis no modo escuro
+  ion-card-title,
+  ion-card-subtitle {
+    --color: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  ion-label {
+    h1, h2, h3, h4, h5, h6 {
+      --color: #ffffff !important;
+      color: #ffffff !important;
+    }
+    
+    p {
+      --color: rgba(255, 255, 255, 0.7) !important;
+      color: rgba(255, 255, 255, 0.7) !important;
+    }
+  }
+
+  // Inputs e searchbar
+  ion-input,
+  ion-textarea,
+  ion-searchbar {
+    --color: #ffffff !important;
+    --placeholder-color: rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
+  }
+
+  // Segment buttons
+  ion-segment-button {
+    --color: rgba(255, 255, 255, 0.7) !important;
+    --color-checked: #ffffff !important;
+  }
+
+  // Toolbar buttons
+  ion-button[fill="clear"] {
+    --color: #ffffff !important;
+    color: #ffffff !important;
   }
 }

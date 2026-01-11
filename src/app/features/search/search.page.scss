@@ -27,7 +27,21 @@ ion-content {
   --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   --placeholder-color: var(--ion-color-medium);
   --icon-color: var(--ion-color-primary);
+  --color: var(--ion-color-dark);
   padding: 0;
+}
+
+/** Modo escuro - searchbar */
+.dark {
+  .search-bar {
+    --background: #2d2d2d;
+    --color: #ffffff !important;
+    --placeholder-color: rgba(255, 255, 255, 0.5) !important;
+    
+    input {
+      color: #ffffff !important;
+    }
+  }
 }
 
 .filters-container {

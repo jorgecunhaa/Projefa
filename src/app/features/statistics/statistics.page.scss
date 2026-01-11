@@ -18,16 +18,28 @@ ion-content {
 .stats-segment {
   margin: 16px;
   border-radius: 12px;
-  background: var(--ion-color-light);
+  background: white;
   padding: 4px;
 
   ion-segment-button {
     --indicator-color: var(--ion-color-primary);
-    --color: var(--ion-color-medium);
-    --color-checked: var(--ion-color-primary);
+    --color: #000000 !important;
+    --color-checked: var(--ion-color-primary) !important;
+    --background: transparent;
+    --background-checked: rgba(139, 0, 0, 0.1);
     min-height: 40px;
     border-radius: 8px;
     font-size: 0.9rem;
+    
+    ion-label {
+      color: #000000 !important;
+    }
+    
+    &.segment-button-checked {
+      ion-label {
+        color: var(--ion-color-primary) !important;
+      }
+    }
   }
 }
 
@@ -328,6 +340,51 @@ ion-content {
   color: var(--ion-color-medium);
 }
 
+/** Modo escuro */
+@media (prefers-color-scheme: dark) {
+  .stats-segment {
+    background: #2d2d2d;
+    
+    ion-segment-button {
+      --color: #ffffff !important;
+      --color-checked: var(--ion-color-primary) !important;
+      
+      ion-label {
+        color: #ffffff !important;
+      }
+      
+      &.segment-button-checked {
+        ion-label {
+          color: #ffffff !important;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.dark {
+  .stats-segment {
+    background: #2d2d2d;
+    
+    ion-segment-button {
+      --color: #ffffff !important;
+      --color-checked: var(--ion-color-primary) !important;
+      
+      ion-label {
+        color: #ffffff !important;
+      }
+      
+      &.segment-button-checked {
+        ion-label {
+          color: #ffffff !important;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
 /** Responsividade */
 @media (max-width: 768px) {
   .summary-cards {
@@ -350,6 +407,21 @@ ion-content {
       min-width: auto;
       padding: 0 12px;
       font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+      
+      ion-label {
+        position: relative;
+        z-index: 2;
+      }
+      
+      // No mobile, texto branco quando selecionado para contrastar com o indicador vermelho
+      &.segment-button-checked {
+        ion-label {
+          color: #ffffff !important;
+          font-weight: 600;
+        }
+      }
     }
   }
 

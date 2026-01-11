@@ -14,26 +14,27 @@
 
 <ion-content [fullscreen]="true" class="fade-in">
   <!-- Filtro por categoria -->
+  <div class="filters-container" *ngIf="categories.length > 0">
     <ion-segment 
-      *ngIf="categories.length > 0"
       [(ngModel)]="selectedCategoryId"
       (ionChange)="onCategoryFilterChange($event.detail.value)"
       class="category-filter">
-    <ion-segment-button value="">
-      <ion-label>Todas</ion-label>
-    </ion-segment-button>
-    <ion-segment-button *ngFor="let category of categories" [value]="category.id">
-      <ion-label>
-        <app-category-badge
-          [name]="category.name"
-          [color]="category.color"
-          [icon]="category.icon"
-          [size]="'small'"
-          [showIcon]="false">
-        </app-category-badge>
-      </ion-label>
-    </ion-segment-button>
-  </ion-segment>
+      <ion-segment-button value="">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button *ngFor="let category of categories" [value]="category.id">
+        <ion-label>
+          <app-category-badge
+            [name]="category.name"
+            [color]="category.color"
+            [icon]="category.icon"
+            [size]="'small'"
+            [showIcon]="false">
+          </app-category-badge>
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <!-- Loading -->
   <div *ngIf="isLoading" class="loading-container">
@@ -65,9 +66,9 @@
       [categoryName]="project.categoryName"
       [categoryColor]="project.categoryColor"
       [categoryIcon]="project.categoryIcon"
-      [taskCount]="0"
-      [completedTaskCount]="0"
-      [overdueTaskCount]="0"
+      [taskCount]="getProjectTaskCount(project.id)"
+      [completedTaskCount]="getProjectCompletedCount(project.id)"
+      [overdueTaskCount]="getProjectOverdueCount(project.id)"
       (click)="navigateToProjectDetail(project.id)"
       (delete)="deleteProject(project)"
       class="project-card-item">

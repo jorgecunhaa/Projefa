@@ -222,9 +222,19 @@ A aplicação utiliza um tema personalizado com a cor **Bordô (#8B0000)** como 
 
 ## 📱 Plataformas Suportadas
 
-- **Web** (PWA)
-- **Android** (via Capacitor)
-- **iOS** (via Capacitor)
+- **Web** (PWA) - Funcionalidades limitadas (sem SQLite, notificações, câmera)
+- **Android** (via Capacitor) - **Recomendado para teste completo**
+- **iOS** (via Capacitor) - **Recomendado para teste completo**
+
+### ⚠️ Importante: Teste no Dispositivo Móvel
+
+**A aplicação DEVE ser testada no telemóvel** para funcionalidades completas:
+- SQLite (base de dados) só funciona em dispositivos nativos
+- Notificações locais requerem permissões do dispositivo
+- Câmera requer permissões do dispositivo
+- Controlo de orientação só funciona em dispositivos nativos
+
+Ver `MOBILE_TESTING.md` para instruções detalhadas de teste no dispositivo.
 
 ## 🔧 Configuração
 
