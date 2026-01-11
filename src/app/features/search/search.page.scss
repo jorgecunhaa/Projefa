@@ -1,0 +1,233 @@
+/**
+ * Search Page Styles
+ * 
+ * Estilos para a página de pesquisa.
+ */
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/** Garantir que o conteúdo não fica escondido */
+ion-content {
+  --offset-top: 0px !important;
+  padding-top: 0 !important;
+}
+
+.search-container {
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  --background: white;
+  --border-radius: 12px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --placeholder-color: var(--ion-color-medium);
+  --icon-color: var(--ion-color-primary);
+  padding: 0;
+}
+
+.filters-container {
+  padding: 8px 16px;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.type-filter {
+  border-radius: 12px;
+  background: white;
+  padding: 4px;
+
+  ion-segment-button {
+    --indicator-color: var(--ion-color-primary);
+    --color: var(--ion-color-medium);
+    --color-checked: var(--ion-color-primary);
+    min-height: 36px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  gap: 16px;
+
+  p {
+    color: var(--ion-color-medium);
+    margin-top: 16px;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  height: 60vh;
+
+  .empty-icon {
+    font-size: 80px;
+    color: var(--ion-color-medium);
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    color: var(--ion-color-dark);
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 1rem;
+    margin-bottom: 8px;
+    max-width: 300px;
+
+    &.hint {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.results-container {
+  padding: 8px 0;
+}
+
+.results-header {
+  padding: 16px;
+  background: var(--ion-color-light);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.result-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 80px;
+  margin: 4px 0;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    --background: rgba(139, 0, 0, 0.05);
+  }
+}
+
+.result-icon {
+  font-size: 1.5rem;
+  margin-right: 12px;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  gap: 8px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    mark {
+      background: var(--ion-color-warning);
+      color: var(--ion-color-dark);
+      padding: 2px 4px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+  }
+
+  .type-badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    flex-shrink: 0;
+  }
+}
+
+.result-description {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  mark {
+    background: var(--ion-color-warning);
+    color: var(--ion-color-dark);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+}
+
+.result-meta {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/** Responsividade */
+@media (max-width: 768px) {
+  .search-container {
+    padding: 8px;
+  }
+
+  .filters-container {
+    padding: 4px 8px;
+  }
+
+  .type-filter {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    ion-segment-button {
+      min-width: auto;
+      padding: 0 8px;
+      font-size: 0.8rem;
+    }
+  }
+
+  .result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    h2 {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+  }
+}

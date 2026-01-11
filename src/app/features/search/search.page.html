@@ -1,0 +1,112 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="search-outline" class="header-icon"></ion-icon>
+      Pesquisa
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearSearch()" fill="clear" *ngIf="searchQuery">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fade-in">
+  <!-- Campo de pesquisa -->
+  <div class="search-container">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="onSearchChange($event)"
+      placeholder="Pesquisar categorias, projetos, tarefas..."
+      debounce="300"
+      show-clear-button="focus"
+      class="search-bar">
+    </ion-searchbar>
+  </div>
+
+  <!-- Filtros de tipo -->
+  <div class="filters-container" *ngIf="searchQuery">
+    <ion-segment 
+      [(ngModel)]="typeFilter"
+      (ionChange)="onTypeFilterChange($event.detail.value)"
+      class="type-filter">
+      <ion-segment-button value="">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="category">
+        <ion-label>Categorias</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="project">
+        <ion-label>Projetos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="task">
+        <ion-label>Tarefas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="isSearching" class="loading-container">
+    <ion-spinner color="primary"></ion-spinner>
+    <p>A pesquisar...</p>
+  </div>
+
+  <!-- Mensagem inicial -->
+  <div *ngIf="!searchQuery && !isSearching" class="empty-state">
+    <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+    <h2>Pesquisa Global</h2>
+    <p>Pesquisa em categorias, projetos e tarefas</p>
+    <p class="hint">Começa a escrever para pesquisar...</p>
+  </div>
+
+  <!-- Sem resultados -->
+  <div *ngIf="searchQuery && !isSearching && !hasResults" class="empty-state">
+    <ion-icon name="search-outline" class="empty-icon"></ion-icon>
+    <h2>Nenhum resultado</h2>
+    <p>Não foram encontrados resultados para "{{ searchQuery }}"</p>
+    <p class="hint">Tenta usar outros termos de pesquisa</p>
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="!isSearching && hasResults" class="results-container">
+    <div class="results-header">
+      <h3>{{ results.length }} {{ results.length === 1 ? 'resultado encontrado' : 'resultados encontrados' }}</h3>
+    </div>
+
+    <ion-list>
+      <ion-item
+        *ngFor="let result of results"
+        (click)="navigateToResult(result)"
+        button
+        class="result-item">
+        
+        <ion-icon
+          [name]="getTypeIcon(result.type)"
+          [color]="getTypeColor(result.type)"
+          slot="start"
+          class="result-icon">
+        </ion-icon>
+
+        <ion-label>
+          <div class="result-header">
+            <h2 [innerHTML]="highlightText(getItemTitle(result))"></h2>
+            <ion-badge [color]="getTypeColor(result.type)" class="type-badge">
+              {{ getTypeName(result.type) }}
+            </ion-badge>
+          </div>
+          
+          <p *ngIf="getItemDescription(result)" [innerHTML]="highlightText(getItemDescription(result))" class="result-description"></p>
+          
+          <div class="result-meta">
+            <ion-chip *ngFor="let field of result.matchedFields" size="small" color="light">
+              <ion-label>{{ field === 'name' ? 'Nome' : (field === 'title' ? 'Título' : 'Descrição') }}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-label>
+
+        <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

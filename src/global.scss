@@ -50,6 +50,12 @@
   box-sizing: border-box;
 }
 
+/** Correção para headers - garantir que o conteúdo não fica escondido */
+ion-header {
+  z-index: 10;
+  position: relative;
+}
+
 body {
   font-family: var(--ion-font-family);
   -webkit-font-smoothing: antialiased;
@@ -63,6 +69,19 @@ ion-content {
   --padding-end: 0;
   --padding-top: 0;
   --padding-bottom: 0;
+}
+
+/** Garantir que o conteúdo não fica escondido atrás do header */
+ion-header + ion-content {
+  --offset-top: 0px;
+  padding-top: 0 !important;
+}
+
+/** Garantir que o header collapse aparece corretamente */
+ion-content > ion-header {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
 }
 
 /** Estilos para cards */

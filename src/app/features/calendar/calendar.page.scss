@@ -9,6 +9,12 @@
   vertical-align: middle;
 }
 
+/** Garantir que o conteúdo não fica escondido */
+ion-content {
+  --offset-top: 0px !important;
+  padding-top: 0 !important;
+}
+
 .month-navigation-card {
   margin: 16px;
   border-radius: 12px;
