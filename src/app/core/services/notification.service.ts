@@ -144,7 +144,12 @@ export class NotificationService {
     }
 
     try {
-      await LocalNotifications.cancelAll();
+      // Obter todas as notificações pendentes e cancelá-las
+      const pending = await this.getPendingNotifications();
+      if (pending.length > 0) {
+        const ids = pending.map(n => n.id);
+        await LocalNotifications.cancel({ notifications: ids.map(id => ({ id })) });
+      }
       console.log('Todas as notificações foram canceladas');
     } catch (error) {
       console.error('Erro ao cancelar todas as notificações:', error);

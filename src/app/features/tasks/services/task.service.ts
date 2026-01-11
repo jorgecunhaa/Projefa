@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { DataSyncService } from '../../../core/services/data-sync.service';
 import { ProjectService } from '../../projects/services/project.service';
+import { NotificationService } from '../../../core/services/notification.service';
+import { StorageService } from '../../../core/services/storage.service';
 import { Task, CreateTaskDto, UpdateTaskDto, TaskWithProject } from '../../../core/models/task.model';
 import { Project } from '../../../core/models/project.model';
 import { generateId } from '../../../core/utils/id-generator.util';
@@ -32,9 +34,29 @@ export class TaskService {
 
   constructor(
     private dataSync: DataSyncService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private notificationService: NotificationService,
+    private storageService: StorageService
   ) {
     this.loadTasks();
+    this.initializeNotifications();
+  }
+
+  /**
+   * Inicializa o sistema de notificações
+   */
+  private async initializeNotifications(): Promise<void> {
+    // Verificar se as notificações estão ativadas
+    const notificationsEnabled = await this.storageService.getSetting<boolean>('notificationsEnabled', true);
+    if (notificationsEnabled) {
+      // Agendar lembrete diário
+      await this.notificationService.scheduleDailyReminder(9, 0);
+      
+      // Agendar notificações para tarefas existentes
+      const tasks = await this.dataSync.getAllTasks();
+      const pendingTasks = tasks.filter(t => !t.completed);
+      await this.notificationService.scheduleMultipleTaskNotifications(pendingTasks, 60);
+    }
   }
 
   /**
@@ -161,6 +183,13 @@ export class TaskService {
     try {
       await this.dataSync.createTask(task);
       await this.loadTasks(); // Recarregar lista
+      
+      // Agendar notificação se as notificações estiverem ativadas
+      const notificationsEnabled = await this.storageService.getSetting<boolean>('notificationsEnabled', true);
+      if (notificationsEnabled && !task.completed) {
+        await this.notificationService.scheduleTaskNotification(task, 60);
+      }
+      
       return task;
     } catch (error) {
       console.error('Erro ao criar tarefa:', error);
@@ -176,8 +205,26 @@ export class TaskService {
    */
   async updateTask(id: string, updates: UpdateTaskDto): Promise<void> {
     try {
+      const oldTask = await this.dataSync.getTaskById(id);
       await this.dataSync.updateTask(id, updates);
       await this.loadTasks(); // Recarregar lista
+      
+      // Atualizar notificações
+      const notificationsEnabled = await this.storageService.getSetting<boolean>('notificationsEnabled', true);
+      if (notificationsEnabled && oldTask) {
+        const updatedTask = await this.dataSync.getTaskById(id);
+        if (updatedTask) {
+          // Se a tarefa foi marcada como concluída, cancelar notificação
+          if (updates.completed === true || updatedTask.completed) {
+            await this.notificationService.cancelTaskNotification(id);
+          } else if (!updatedTask.completed) {
+            // Reagendar notificação se a data mudou ou se foi desmarcada como concluída
+            if (updates.dueDate || updates.completed === false) {
+              await this.notificationService.scheduleTaskNotification(updatedTask, 60);
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Erro ao atualizar tarefa:', error);
       throw error;
@@ -191,6 +238,9 @@ export class TaskService {
    */
   async deleteTask(id: string): Promise<void> {
     try {
+      // Cancelar notificação antes de eliminar
+      await this.notificationService.cancelTaskNotification(id);
+      
       await this.dataSync.deleteTask(id);
       await this.loadTasks(); // Recarregar lista
     } catch (error) {
